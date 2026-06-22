@@ -1,63 +1,38 @@
 {% extends "base.html" %}
 
 {% block content %}
-
-<h1>Adhvayoga Algorithm</h1>
-
+<h1>About This Project</h1>
 <p>
-    Adhvayoga shows cumulative counting. It adds the number of possible
-    Laghu-Guru patterns from length 0 up to a given length n.
+    This project explains the mathematical and computational ideas
+    found in Pingala’s Chandaḥśāstra.
 </p>
 
-<div class="card p-4 mb-4">
-    <form method="POST">
-        <div class="mb-3">
-            <label class="form-label">Enter maximum number of syllables</label>
-            <input type="number" name="n" class="form-control" min="1" max="20" required>
-        </div>
+<h3>References</h3>
 
-        <button type="submit" class="btn btn-primary">Calculate Cumulative Count</button>
-    </form>
+<div class="alert alert-secondary">
+
+    This web application is an independent educational project.
+    The explanations, visualizations, and implementations are created
+    for learning purposes and are not an official IIT Kanpur product.
+
 </div>
 
-{% if result %}
+<ul>
+    <li>
+        Pingala's Chandaḥśāstra
+    </li>
 
-<div class="card p-4">
-    <h3>Result</h3>
+    <li>
+        Lecture by Prof. Arnab Bhattacharya, IIT Kanpur
+    </li>
 
-    <p>
-        Cumulative count from length 0 to {{ result.n }}:
-        <strong>{{ result.total }}</strong>
-    </p>
+    <li>
+        Halāyudha's commentary on Chandaḥśāstra
+    </li>
 
-    <table class="table table-bordered table-striped">
-        <thead>
-            <tr>
-                <th>Length</th>
-                <th>Formula</th>
-                <th>Patterns</th>
-                <th>Cumulative Total</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            {% for item in result.values %}
-            <tr>
-                <td>{{ item.length }}</td>
-                <td>{{ item.formula }}</td>
-                <td>{{ item.count }}</td>
-                <td>{{ item.cumulative }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
-    <h4>
-        Final Total:
-        <span class="badge bg-primary">{{ result.total }}</span>
-    </h4>
-</div>
-
-{% endif %}
+    <li>
+        Modern studies on binary systems and combinatorics in Sanskrit prosody
+    </li>
+</ul>
 
 {% endblock %}
