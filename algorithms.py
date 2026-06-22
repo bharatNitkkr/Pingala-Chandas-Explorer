@@ -44,13 +44,31 @@ def nasta(n, index):
 
 
 def uddista(pattern):
-    n = len(pattern)
-    patterns = prastara(n)
+    pattern = pattern.upper()
 
-    if pattern not in patterns:
-        return None
+    for ch in pattern:
+        if ch not in ["L", "G"]:
+            return None
 
-    return patterns.index(pattern) + 1
+    binary_number = ""
+
+    for ch in pattern:
+        if ch == "L":
+            binary_number += "1"
+        else:
+            binary_number += "0"
+
+    decimal_value = int(binary_number, 2)
+
+    index = decimal_value + 1
+
+    return {
+        "pattern": pattern,
+        "binary": binary_number,
+        "decimal": decimal_value,
+        "index": index,
+        "length": len(pattern)
+    }
 
 
 def adhvayoga(n):

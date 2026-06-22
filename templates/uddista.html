@@ -1,6 +1,95 @@
 {% extends "base.html" %}
 
 {% block content %}
+
 <h1>Uddiṣṭa Algorithm</h1>
-<p>This page will find the index of a given pattern.</p>
+
+<p>
+    Uddiṣṭa means finding the position of a given pattern.
+    In this algorithm, we convert a Laghu-Guru pattern into binary
+    and then calculate its index.
+</p>
+
+<div class="card p-4 mb-4">
+    <form method="POST">
+
+        <div class="mb-3">
+            <label class="form-label">Enter Laghu-Guru Pattern</label>
+            <input type="text" name="pattern" class="form-control" placeholder="Example: LGG" required>
+            <small class="text-muted">
+                Use L for Laghu and G for Guru.
+            </small>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Find Index</button>
+
+    </form>
+</div>
+
+{% if error %}
+<div class="alert alert-danger">
+    {{ error }}
+</div>
+{% endif %}
+
+{% if result %}
+
+<div class="card p-4">
+    <h3>Result</h3>
+
+    <p><strong>Input Pattern:</strong> {{ result.pattern }}</p>
+    <p><strong>Length:</strong> {{ result.length }}</p>
+
+    <hr>
+
+    <h5>Step 1: Convert Laghu-Guru pattern to binary</h5>
+
+    <p>
+        Laghu → 1 &nbsp;&nbsp; Guru → 0
+    </p>
+
+    <div class="mb-3">
+        {% for ch in result.pattern %}
+            {% if ch == "L" %}
+                <span class="badge bg-success fs-6">Laghu</span>
+            {% else %}
+                <span class="badge bg-warning text-dark fs-6">Guru</span>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <p>
+        Binary form:
+        <span class="badge bg-dark fs-6">{{ result.binary }}</span>
+    </p>
+
+    <hr>
+
+    <h5>Step 2: Convert binary to decimal</h5>
+
+    <p>
+        <strong>{{ result.binary }}</strong> in binary =
+        <strong>{{ result.decimal }}</strong> in decimal
+    </p>
+
+    <hr>
+
+    <h5>Step 3: Add 1 to get index</h5>
+
+    <p>
+        Since our index starts from 1:
+    </p>
+
+    <p>
+        <strong>{{ result.decimal }} + 1 = {{ result.index }}</strong>
+    </p>
+
+    <h4>
+        Final Index:
+        <span class="badge bg-primary">{{ result.index }}</span>
+    </h4>
+</div>
+
+{% endif %}
+
 {% endblock %}
