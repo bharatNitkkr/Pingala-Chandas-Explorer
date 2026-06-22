@@ -76,25 +76,32 @@ def uddista(pattern):
 
 
 def adhvayoga(n):
-    total = 0
     values = []
+    cumulative = 0
 
-    for i in range(n + 1):
-        count = 2 ** i
-        total += count
+    for length in range(n + 1):
+        count = 2 ** length
+        cumulative += count
+
         values.append({
-            "length": i,
+            "length": length,
+            "formula": f"2^{length}",
             "count": count,
-            "cumulative": total
+            "cumulative": cumulative
         })
 
-    return values
+    return {
+        "n": n,
+        "values": values,
+        "total": cumulative
+    }
 
 
 def meru_prastara(rows):
     triangle = []
 
     for i in range(rows):
+
         row = [1]
 
         if i > 0:
@@ -107,4 +114,7 @@ def meru_prastara(rows):
 
         triangle.append(row)
 
-    return triangle
+    return {
+        "rows": rows,
+        "triangle": triangle
+    }

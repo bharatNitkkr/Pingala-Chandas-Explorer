@@ -59,13 +59,25 @@ def sankhya_page():
 
     return render_template("sankhya.html", result=result)
 
-@app.route("/adhvayoga")
+@app.route("/adhvayoga", methods=["GET", "POST"])
 def adhvayoga_page():
-    return render_template("adhvayoga.html")
+    result = None
 
-@app.route("/meru")
+    if request.method == "POST":
+        n = int(request.form["n"])
+        result = adhvayoga(n)
+
+    return render_template("adhvayoga.html", result=result)
+
+@app.route("/meru", methods=["GET", "POST"])
 def meru_page():
-    return render_template("meru.html")
+    result = None
+
+    if request.method == "POST":
+        rows = int(request.form["rows"])
+        result = meru_prastara(rows)
+
+    return render_template("meru.html", result=result)
 
 @app.route("/about")
 def about():

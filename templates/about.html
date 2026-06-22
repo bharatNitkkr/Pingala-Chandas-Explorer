@@ -1,9 +1,63 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>About This Project</h1>
+
+<h1>Adhvayoga Algorithm</h1>
+
 <p>
-    This project explains the mathematical and computational ideas
-    found in Pingala’s Chandaḥśāstra.
+    Adhvayoga shows cumulative counting. It adds the number of possible
+    Laghu-Guru patterns from length 0 up to a given length n.
 </p>
+
+<div class="card p-4 mb-4">
+    <form method="POST">
+        <div class="mb-3">
+            <label class="form-label">Enter maximum number of syllables</label>
+            <input type="number" name="n" class="form-control" min="1" max="20" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Calculate Cumulative Count</button>
+    </form>
+</div>
+
+{% if result %}
+
+<div class="card p-4">
+    <h3>Result</h3>
+
+    <p>
+        Cumulative count from length 0 to {{ result.n }}:
+        <strong>{{ result.total }}</strong>
+    </p>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Length</th>
+                <th>Formula</th>
+                <th>Patterns</th>
+                <th>Cumulative Total</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for item in result.values %}
+            <tr>
+                <td>{{ item.length }}</td>
+                <td>{{ item.formula }}</td>
+                <td>{{ item.count }}</td>
+                <td>{{ item.cumulative }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h4>
+        Final Total:
+        <span class="badge bg-primary">{{ result.total }}</span>
+    </h4>
+</div>
+
+{% endif %}
+
 {% endblock %}
