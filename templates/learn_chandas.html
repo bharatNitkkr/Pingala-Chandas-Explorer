@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Learn Sanskrit Chandas</h1>
+
+<p>
+    Chandas is the study of poetic meter in Sanskrit. It is one of the six Vedāṅgas,
+    the auxiliary disciplines developed to preserve and understand the Vedas.
+</p>
+
+<div class="card p-4 mb-4">
+    <h3>What is Chandas?</h3>
+
+    <p>
+        Chandas deals with the rhythm, structure, and measurement of Sanskrit verses.
+        A verse is not only meaningful through words, but also through its sound pattern.
+    </p>
+
+    <p>
+        In Sanskrit poetry, this rhythm is created through the arrangement of short and long syllables.
+    </p>
+</div>
+
+<div class="card p-4 mb-4">
+    <h3>Laghu and Guru</h3>
+
+    <p>
+        Every syllable, or akṣara, can be classified as either Laghu or Guru.
+    </p>
+
+    <p>
+        <span class="badge bg-success fs-6">Laghu</span>
+        means light or short. It takes one mātrā of time.
+    </p>
+
+    <p>
+        <span class="badge bg-warning text-dark fs-6">Guru</span>
+        means heavy or long. It takes two mātrās of time.
+    </p>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Type</th>
+                <th>Meaning</th>
+                <th>Time</th>
+                <th>Binary Value Used in This App</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+                <td>Laghu</td>
+                <td>Short syllable</td>
+                <td>1 mātrā</td>
+                <td>1</td>
+            </tr>
+
+            <tr>
+                <td>Guru</td>
+                <td>Long syllable</td>
+                <td>2 mātrās</td>
+                <td>0</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="card p-4 mb-4">
+    <h3>Akṣara and Mātrā</h3>
+
+    <p>
+        An akṣara is roughly a syllable. A mātrā is a unit of time used to measure
+        how long a syllable takes to pronounce.
+    </p>
+
+    <p>
+        Laghu syllables take one mātrā, while Guru syllables take two mātrās.
+    </p>
+</div>
+
+<div class="card p-4 mb-4">
+    <h3>Why Chandas Matters</h3>
+
+    <ul>
+        <li>It gives Sanskrit poetry rhythm and beauty.</li>
+        <li>It helps in memorization of verses.</li>
+        <li>It helps detect errors in chanting or recitation.</li>
+        <li>It connects ancient Indian knowledge with mathematics and computer science.</li>
+    </ul>
+</div>
+
+<div class="card p-4 mb-4">
+    <h3>Connection with Binary System</h3>
+
+    <p>
+        Since every syllable has two possibilities, Laghu or Guru, a Chandas pattern
+        naturally behaves like a binary sequence.
+    </p>
+
+    <p>
+        Example:
+    </p>
+
+    <p>
+        <strong>L G G L</strong>
+    </p>
+
+    <p>
+        becomes:
+    </p>
+
+    <p>
+        <span class="badge bg-dark fs-6">1 0 0 1</span>
+    </p>
+
+    <p>
+        This is why Pingala's Chandaḥśāstra is important in the history of
+        combinatorics and binary representation.
+    </p>
+</div>
+
+{% endblock %}

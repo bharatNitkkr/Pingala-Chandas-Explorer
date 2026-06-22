@@ -83,5 +83,14 @@ def meru_page():
 def about():
     return render_template("about.html")
 
+@app.route("/learn-chandas")
+def learn_chandas():
+    return render_template("learn_chandas.html")
+
+
+@app.route("/lecture-interpretation")
+def lecture_interpretation():
+    return render_template("lecture_interpretation.html")
+
 if __name__ == "__main__":
     app.run(debug=True)

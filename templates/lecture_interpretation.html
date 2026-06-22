@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>IIT Kanpur Lecture & Mathematical Interpretation</h1>
+
+<p>
+    This section is inspired by the academic talk
+    <strong>“The Art and Science of Sanskrit Chandas: Origins of Binary System and Combinatorics”</strong>
+    by <strong>Prof. Arnab Bhattacharya, IIT Kanpur</strong>.
+</p>
+
+<div class="card p-4 mb-4">
+    <h3>Central Idea of the Lecture</h3>
+
+    <p>
+        The lecture explains that Sanskrit Chandas is not only an artistic system of rhythm,
+        but also a mathematical system based on patterns, counting, and combinations.
+    </p>
+
+    <p>
+        The two basic units, Laghu and Guru, form a structure similar to binary numbers.
+    </p>
+</div>
+
+<div class="card p-4 mb-4">
+    <h3>Binary Interpretation</h3>
+
+    <p>
+        In this project, we represent:
+    </p>
+
+    <p>
+        <span class="badge bg-success fs-6">Laghu = 1</span>
+        <span class="badge bg-warning text-dark fs-6">Guru = 0</span>
+    </p>
+
+    <p>
+        So a Chandas pattern like:
+    </p>
+
+    <p>
+        <strong>Laghu Guru Guru Laghu</strong>
+    </p>
+
+    <p>
+        becomes:
+    </p>
+
+    <p>
+        <span class="badge bg-dark fs-6">1001</span>
+    </p>
+</div>
+
+<div class="card p-4 mb-4">
+    <h3>Combinatorics Interpretation</h3>
+
+    <p>
+        If a pattern has n syllables, each syllable has two choices:
+        Laghu or Guru.
+    </p>
+
+    <p>
+        Therefore, the total number of possible patterns is:
+    </p>
+
+    <h4>
+        2<sup>n</sup>
+    </h4>
+
+    <p>
+        This idea is implemented in the Saṅkhyā algorithm of this app.
+    </p>
+</div>
+
+<div class="card p-4 mb-4">
+    <h3>Six Algorithms in This App</h3>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Algorithm</th>
+                <th>Meaning</th>
+                <th>Modern Interpretation</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+                <td>Prastāra</td>
+                <td>Expansion</td>
+                <td>Generate all binary patterns</td>
+            </tr>
+
+            <tr>
+                <td>Naṣṭa</td>
+                <td>Lost pattern</td>
+                <td>Find pattern from index</td>
+            </tr>
+
+            <tr>
+                <td>Uddiṣṭa</td>
+                <td>Given pattern</td>
+                <td>Find index from pattern</td>
+            </tr>
+
+            <tr>
+                <td>Saṅkhyā</td>
+                <td>Counting</td>
+                <td>Calculate 2<sup>n</sup></td>
+            </tr>
+
+            <tr>
+                <td>Adhvayoga</td>
+                <td>Cumulative counting</td>
+                <td>Sum of powers of 2</td>
+            </tr>
+
+            <tr>
+                <td>Meru-Prastāra</td>
+                <td>Triangular arrangement</td>
+                <td>Pascal Triangle / binomial coefficients</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="card p-4 mb-4">
+    <h3>Why This Matters for Computer Science</h3>
+
+    <p>
+        These algorithms connect ancient Sanskrit prosody with ideas that are central
+        to modern computer science:
+    </p>
+
+    <ul>
+        <li>Binary representation</li>
+        <li>Enumeration of patterns</li>
+        <li>Ranking and unranking</li>
+        <li>Combinatorics</li>
+        <li>Recursive construction</li>
+        <li>Pascal Triangle</li>
+    </ul>
+</div>
+
+{% endblock %}
