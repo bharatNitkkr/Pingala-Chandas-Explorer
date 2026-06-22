@@ -1,6 +1,87 @@
 {% extends "base.html" %}
 
 {% block content %}
+
 <h1>Naṣṭa Algorithm</h1>
-<p>This page will recover a pattern from its index.</p>
+
+<p>
+    Naṣṭa means finding a lost pattern. In this algorithm, we recover
+    the Laghu-Guru pattern from its index number.
+</p>
+
+<div class="card p-4 mb-4">
+    <form method="POST">
+
+        <div class="mb-3">
+            <label class="form-label">Enter number of syllables</label>
+            <input type="number" name="n" class="form-control" min="1" max="12" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Enter index number</label>
+            <input type="number" name="index" class="form-control" min="1" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Find Pattern</button>
+
+    </form>
+</div>
+
+{% if error %}
+<div class="alert alert-danger">
+    {{ error }}
+</div>
+{% endif %}
+
+{% if result %}
+
+<div class="card p-4">
+    <h3>Result</h3>
+
+    <p><strong>Length:</strong> {{ result.length }}</p>
+    <p><strong>Index:</strong> {{ result.index }}</p>
+
+    <hr>
+
+    <h5>Step 1: Convert index to binary</h5>
+
+    <p>
+        We use index - 1 because binary counting starts from 0.
+    </p>
+
+    <p>
+        <strong>{{ result.index }} - 1 = {{ result.index - 1 }}</strong>
+    </p>
+
+    <p>
+        Binary form:
+        <span class="badge bg-dark fs-6">{{ result.binary }}</span>
+    </p>
+
+    <hr>
+
+    <h5>Step 2: Convert binary digits to Chandas pattern</h5>
+
+    <p>
+        1 → Laghu &nbsp;&nbsp; 0 → Guru
+    </p>
+
+    <div class="mb-3">
+        {% for ch in result.pattern %}
+            {% if ch == "L" %}
+                <span class="badge bg-success fs-6">Laghu</span>
+            {% else %}
+                <span class="badge bg-warning text-dark fs-6">Guru</span>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <p>
+        Final Pattern:
+        <strong>{{ result.pattern }}</strong>
+    </p>
+</div>
+
+{% endif %}
+
 {% endblock %}

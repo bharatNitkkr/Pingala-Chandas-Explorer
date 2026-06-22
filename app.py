@@ -18,9 +18,21 @@ def prastara_page():
 
     return render_template("prastara.html", result=result, n=n)
 
-@app.route("/nasta")
+@app.route("/nasta", methods=["GET", "POST"])
 def nasta_page():
-    return render_template("nasta.html")
+    result = None
+    error = None
+
+    if request.method == "POST":
+        n = int(request.form["n"])
+        index = int(request.form["index"])
+
+        result = nasta(n, index)
+
+        if result is None:
+            error = f"Invalid index. For n = {n}, index must be between 1 and {2 ** n}."
+
+    return render_template("nasta.html", result=result, error=error)
 
 @app.route("/uddista")
 def uddista_page():

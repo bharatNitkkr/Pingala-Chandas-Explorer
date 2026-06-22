@@ -18,12 +18,29 @@ def sankhya(n):
 
 
 def nasta(n, index):
-    patterns = prastara(n)
+    total_patterns = 2 ** n
 
-    if index < 1 or index > len(patterns):
+    if index < 1 or index > total_patterns:
         return None
 
-    return patterns[index - 1]
+    binary_number = bin(index - 1)[2:]
+
+    binary_number = binary_number.zfill(n)
+
+    pattern = ""
+
+    for bit in binary_number:
+        if bit == "1":
+            pattern += "L"
+        else:
+            pattern += "G"
+
+    return {
+        "index": index,
+        "length": n,
+        "binary": binary_number,
+        "pattern": pattern
+    }
 
 
 def uddista(pattern):
