@@ -22,10 +22,20 @@ def prastara_page():
 def nasta_page():
     return render_template("nasta.html")
 
-@app.route("/uddista")
+@app.route("/uddista", methods=["GET", "POST"])
 def uddista_page():
-    return render_template("uddista.html")
+    result = None
+    error = None
 
+    if request.method == "POST":
+        pattern = request.form["pattern"].upper().strip()
+
+        result = uddista(pattern)
+
+        if result is None:
+            error = "Invalid pattern. Please use only L for Laghu and G for Guru."
+
+    return render_template("uddista.html", result=result, error=error)
 @app.route("/sankhya")
 def sankhya_page():
     return render_template("sankhya.html")
