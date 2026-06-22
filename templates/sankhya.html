@@ -1,6 +1,56 @@
 {% extends "base.html" %}
 
 {% block content %}
+
 <h1>Saṅkhyā Algorithm</h1>
-<p>This page will count total possible patterns.</p>
+
+<p>
+    Saṅkhyā means counting. This algorithm calculates the total number
+    of possible Laghu-Guru patterns for a given number of syllables.
+</p>
+
+<div class="card p-4 mb-4">
+    <form method="POST">
+        <div class="mb-3">
+            <label class="form-label">Enter number of syllables</label>
+            <input type="number" name="n" class="form-control" min="1" max="30" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Calculate</button>
+    </form>
+</div>
+
+{% if result %}
+
+<div class="card p-4">
+    <h3>Result</h3>
+
+    <p><strong>Number of syllables:</strong> {{ result.length }}</p>
+
+    <hr>
+
+    <h5>Reasoning</h5>
+
+    <p>
+        Each syllable can be either:
+    </p>
+
+    <p>
+        <span class="badge bg-success fs-6">Laghu</span>
+        or
+        <span class="badge bg-warning text-dark fs-6">Guru</span>
+    </p>
+
+    <p>
+        So each syllable has <strong>2 choices</strong>.
+    </p>
+
+    <h4>
+        Total patterns = {{ result.formula }} =
+        <span class="badge bg-primary">{{ result.total }}</span>
+    </h4>
+</div>
+
+{% endif %}
+
 {% endblock %}

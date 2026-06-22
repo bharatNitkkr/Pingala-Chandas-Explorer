@@ -14,7 +14,11 @@ def prastara(n):
 
 
 def sankhya(n):
-    return 2 ** n
+    return {
+        "length": n,
+        "formula": f"2^{n}",
+        "total": 2 ** n
+    }
 
 
 def nasta(n, index):

@@ -48,9 +48,16 @@ def uddista_page():
             error = "Invalid pattern. Please use only L for Laghu and G for Guru."
 
     return render_template("uddista.html", result=result, error=error)
-@app.route("/sankhya")
+
+@app.route("/sankhya", methods=["GET", "POST"])
 def sankhya_page():
-    return render_template("sankhya.html")
+    result = None
+
+    if request.method == "POST":
+        n = int(request.form["n"])
+        result = sankhya(n)
+
+    return render_template("sankhya.html", result=result)
 
 @app.route("/adhvayoga")
 def adhvayoga_page():
