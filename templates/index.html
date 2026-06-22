@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="p-5 mb-4 bg-light rounded-3">
+    <h1 class="display-5 fw-bold">Pingala Chandas Explorer</h1>
+
+    <p class="fs-5">
+        An interactive full-stack web application to understand the six algorithms
+        of Pingala’s Chandaḥśāstra.
+    </p>
+
+    <p>
+        This app demonstrates Sanskrit Chandas using modern computer science ideas
+        like binary numbers, recursion, combinatorics, indexing, and Pascal Triangle.
+    </p>
+</div>
+
+<h2>Six Algorithms</h2>
+
+<div class="row">
+
+    <div class="col-md-4 mb-3">
+        <div class="card p-3">
+            <h4>Prastāra</h4>
+            <p>Generate all possible Laghu-Guru patterns.</p>
+            <a href="/prastara" class="btn btn-primary">Explore</a>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-3">
+        <div class="card p-3">
+            <h4>Naṣṭa</h4>
+            <p>Recover a pattern from its position number.</p>
+            <a href="/nasta" class="btn btn-primary">Explore</a>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-3">
+        <div class="card p-3">
+            <h4>Uddiṣṭa</h4>
+            <p>Find the position number of a given pattern.</p>
+            <a href="/uddista" class="btn btn-primary">Explore</a>
+        </div>
+    </div>
+
+</div>
+
+<div class="row">
+
+    <div class="col-md-4 mb-3">
+        <div class="card p-3">
+            <h4>Saṅkhyā</h4>
+            <p>Count total possible patterns for a length.</p>
+            <a href="/sankhya" class="btn btn-primary">Explore</a>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-3">
+        <div class="card p-3">
+            <h4>Adhvayoga</h4>
+            <p>Show cumulative counting of patterns.</p>
+            <a href="/adhvayoga" class="btn btn-primary">Explore</a>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-3">
+        <div class="card p-3">
+            <h4>Meru-prastāra</h4>
+            <p>Generate Meru Triangle / Pascal Triangle.</p>
+            <a href="/meru" class="btn btn-primary">Explore</a>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

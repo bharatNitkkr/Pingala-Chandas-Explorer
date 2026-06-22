@@ -1,0 +1,4 @@
+myenv2/ 
+__pycache__/ 
+*.pyc 
+.vscode/ 

@@ -1,0 +1,13 @@
+body {
+    background-color: #c6f1f8;
+}
+
+.card {
+    height: 100%;
+    box-shadow: 0 2px 8px rgba(224, 63, 63, 0.08);
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    transition: 0.2s;
+}

@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Prastāra Algorithm</h1>
+
+<p>
+    Prastāra means expansion or enumeration. It generates all possible
+    Laghu-Guru patterns for a given number of syllables.
+</p>
+
+<div class="card p-4 mb-4">
+    <form method="POST">
+        <div class="mb-3">
+            <label class="form-label">Enter number of syllables</label>
+            <input type="number" name="n" class="form-control" min="1" max="8" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Generate Patterns</button>
+    </form>
+</div>
+
+{% if result %}
+<h3>Result for n = {{ n }}</h3>
+
+<p>Total patterns: <strong>{{ result|length }}</strong></p>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Index</th>
+            <th>Pattern</th>
+            <th>Binary Form</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for pattern in result %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>
+                {% for ch in pattern %}
+                    {% if ch == "L" %}
+                        <span class="badge bg-success">Laghu</span>
+                    {% else %}
+                        <span class="badge bg-warning text-dark">Guru</span>
+                    {% endif %}
+                {% endfor %}
+            </td>
+            <td>
+                {% for ch in pattern %}
+                    {% if ch == "L" %}
+                        1
+                    {% else %}
+                        0
+                    {% endif %}
+                {% endfor %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+
+{% endblock %}
