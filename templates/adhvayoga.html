@@ -2,46 +2,80 @@
 
 {% block content %}
 
-<h1>Adhvayoga Algorithm</h1>
+<h1>Adhvayōga Algorithm</h1>
 
 <p>
-    Adhvayoga shows cumulative counting. It adds the number of possible
-    Laghu-Guru patterns from length 0 up to a given length n.
+    Adhvayōga answers this question: how many Laghu-Guru patterns are there
+    up to a particular length <strong>n</strong>?
 </p>
+
+<p>
+    It calculates the sum:
+</p>
+
+<h4>
+    2<sup>1</sup> + 2<sup>2</sup> + ... + 2<sup>n</sup>
+</h4>
+
+<p>
+    The direct formula is:
+</p>
+
+<h4>
+    2<sup>n + 1</sup> - 2
+</h4>
 
 <div class="card p-4 mb-4">
     <form method="POST">
         <div class="mb-3">
-            <label class="form-label">Enter maximum number of syllables</label>
-            <input type="number" name="n" class="form-control" min="1" max="20" required>
+            <label class="form-label">Enter maximum pattern length n</label>
+            <input type="number" name="n" class="form-control" min="1" max="30" required>
         </div>
 
-        <button type="submit" class="btn btn-primary">Calculate Cumulative Count</button>
+        <button type="submit" class="btn btn-primary">Calculate Adhvayōga</button>
     </form>
 </div>
 
 {% if result %}
 
-<div class="card p-4">
+<div class="card p-4 mb-4">
     <h3>Result</h3>
 
     <p>
-        Cumulative count from length 0 to {{ result["n"] }}:
-        <strong>{{ result["total"] }}</strong>
+        Maximum length:
+        <strong>{{ result["n"] }}</strong>
     </p>
+
+    <p>
+        Sum:
+        <strong>
+            2<sup>1</sup> + 2<sup>2</sup> + ... + 2<sup>{{ result["n"] }}</sup>
+        </strong>
+    </p>
+
+    <h4>
+        Direct Answer:
+        <span class="badge bg-primary">
+            2<sup>{{ result["n"] + 1 }}</sup> - 2 = {{ result["direct_answer"] }}
+        </span>
+    </h4>
+</div>
+
+<div class="card p-4 mb-4">
+    <h3>Step-by-Step Calculation</h3>
 
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
                 <th>Length</th>
                 <th>Formula</th>
-                <th>Patterns</th>
+                <th>Number of Patterns</th>
                 <th>Cumulative Total</th>
             </tr>
         </thead>
 
         <tbody>
-            {% for item in result["values"] %}
+            {% for item in result["terms"] %}
             <tr>
                 <td>{{ item.length }}</td>
                 <td>{{ item.formula }}</td>
@@ -54,8 +88,31 @@
 
     <h4>
         Final Total:
-        <span class="badge bg-primary">{{ result["total"] }}</span>
+        <span class="badge bg-success">{{ result["total"] }}</span>
     </h4>
+</div>
+
+<div class="card p-4 mb-4">
+    <h3>Example Meaning</h3>
+
+    <p>
+        For n = {{ result["n"] }}, Adhvayōga counts all possible patterns
+        of length 1 up to length {{ result["n"] }}.
+    </p>
+
+    <p>
+        It does not include length 0.
+    </p>
+
+    <p>
+        Therefore:
+    </p>
+
+    <p>
+        <strong>
+            Total = 2<sup>{{ result["n"] + 1 }}</sup> - 2 = {{ result["total"] }}
+        </strong>
+    </p>
 </div>
 
 {% endif %}

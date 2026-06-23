@@ -2,37 +2,120 @@
 
 {% block content %}
 
-<h1>Saṅkhyā Algorithm</h1>
+<h1>Saṁkhyāna Algorithm</h1>
 
 <p>
-    Saṅkhyā means counting. This algorithm calculates the total number
-    of possible Laghu-Guru patterns for a given number of syllables.
+    Saṁkhyāna answers this question: for a Chandas pattern of length
+    <strong>n</strong>, how many total Laghu-Guru patterns are possible?
 </p>
+
+<p>
+    Since every syllable can be either Laghu or Guru, the total number
+    of patterns is:
+</p>
+
+<h4>
+    2<sup>n</sup>
+</h4>
 
 <div class="card p-4 mb-4">
     <form method="POST">
         <div class="mb-3">
-            <label class="form-label">Enter number of syllables</label>
+            <label class="form-label">Enter pattern length n</label>
             <input type="number" name="n" class="form-control" min="1" max="30" required>
         </div>
 
-        <button type="submit" class="btn btn-primary">Calculate</button>
+        <button type="submit" class="btn btn-primary">Calculate Saṁkhyāna</button>
     </form>
 </div>
 
 {% if result %}
 
-<div class="card p-4">
+<div class="card p-4 mb-4">
     <h3>Result</h3>
 
-    <p><strong>Number of syllables:</strong> {{ result.length }}</p>
-
-    <hr>
-
-    <h5>Reasoning</h5>
+    <p>
+        Pattern length:
+        <strong>{{ result["length"] }}</strong>
+    </p>
 
     <p>
-        Each syllable can be either:
+        Total patterns:
+        <strong>
+            2<sup>{{ result["length"] }}</sup> = {{ result["total"] }}
+        </strong>
+    </p>
+</div>
+
+<div class="card p-4 mb-4">
+    <h3>Step 1: Reduce n</h3>
+
+    <p>
+        The algorithm reduces n to 0. If n is even, divide it by 2.
+        If n is odd, subtract 1.
+    </p>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Current n</th>
+                <th>Code</th>
+                <th>Operation</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for step in result["steps_down"] %}
+            <tr>
+                <td>{{ step.current }}</td>
+                <td>{{ step.code }}</td>
+                <td>{{ step.operation }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="card p-4 mb-4">
+    <h3>Step 2: Reconstruct the value</h3>
+
+    <p>
+        Now the operations are read in reverse. Code 0 means multiply by 2.
+        Code 2 means square the current value.
+    </p>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Operation</th>
+                <th>Result</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for step in result["steps_up"] %}
+            <tr>
+                <td>{{ step.code }}</td>
+                <td>{{ step.operation }}</td>
+                <td>{{ step.result }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="card p-4 mb-4">
+    <h3>Meaning in Chandas</h3>
+
+    <p>
+        For n = {{ result["length"] }}, there are
+        <strong>{{ result["total"] }}</strong>
+        possible Laghu-Guru patterns.
+    </p>
+
+    <p>
+        This is because every position has two choices:
     </p>
 
     <p>
@@ -40,15 +123,6 @@
         or
         <span class="badge bg-warning text-dark fs-6">Guru</span>
     </p>
-
-    <p>
-        So each syllable has <strong>2 choices</strong>.
-    </p>
-
-    <h4>
-        Total patterns = {{ result.formula }} =
-        <span class="badge bg-primary">{{ result.total }}</span>
-    </h4>
 </div>
 
 {% endif %}
