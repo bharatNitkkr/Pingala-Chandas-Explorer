@@ -2,65 +2,121 @@
 
 {% block content %}
 
-<h1>Meru-Prastāra</h1>
+<h1>Lagakriyā / Meru-Prastāra Algorithm</h1>
 
 <p>
-    Meru-Prastāra is Pingala's triangular arrangement of numbers,
-    known today as Pascal's Triangle.
+    Lagakriyā answers this question: for a Chandas pattern of length n,
+    how many patterns contain exactly 0 Guru, 1 Guru, 2 Guru, and so on?
+</p>
+
+<p>
+    This is represented using Meru-Prastāra, known today as Pascal's Triangle.
 </p>
 
 <div class="card p-4 mb-4">
-
     <form method="POST">
-
         <div class="mb-3">
-            <label class="form-label">
-                Number of Rows
-            </label>
-
-            <input
-                type="number"
-                name="rows"
-                class="form-control"
-                min="1"
-                max="15"
-                required>
+            <label class="form-label">Enter length of pattern</label>
+            <input type="number" name="n" class="form-control" min="1" max="12" required>
         </div>
 
-        <button type="submit" class="btn btn-primary">
-            Generate Meru
-        </button>
-
+        <button type="submit" class="btn btn-primary">Generate Meru Result</button>
     </form>
-
 </div>
 
 {% if result %}
 
-<div class="card p-4">
-
-    <h3>
-        Meru Triangle ({{ result["rows"] }} rows)
-    </h3>
+<div class="card p-4 mb-4">
+    <h3>Meru Triangle up to length {{ result["length"] }}</h3>
 
     <hr>
 
     {% for row in result["triangle"] %}
-
         <div class="text-center mb-2">
-
             {% for value in row %}
-
                 <span class="badge bg-success fs-6 mx-1">
                     {{ value }}
                 </span>
-
             {% endfor %}
-
         </div>
-
     {% endfor %}
+</div>
 
+<div class="card p-4 mb-4">
+    <h3>Meru Row for n = {{ result["length"] }}</h3>
+
+    <p>
+        This row tells how many patterns have exactly 0 Guru, 1 Guru,
+        2 Guru, and so on.
+    </p>
+
+    <h4>
+        {% for value in result["meru_row"] %}
+            <span class="badge bg-primary fs-6 mx-1">{{ value }}</span>
+        {% endfor %}
+    </h4>
+
+    <p class="mt-3">
+        Total patterns:
+        <strong>{{ result["total_patterns"] }}</strong>
+        =
+        <strong>2<sup>{{ result["length"] }}</sup></strong>
+    </p>
+</div>
+
+<div class="card p-4 mb-4">
+    <h3>Guru-wise Pattern Count</h3>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Number of Guru</th>
+                <th>Number of Laghu</th>
+                <th>Number of Patterns</th>
+                <th>Meaning</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for item in result["guru_counts"] %}
+            <tr>
+                <td>{{ item.gurus }}</td>
+                <td>{{ item.laghus }}</td>
+                <td>{{ item.count }}</td>
+                <td>
+                    {{ item.gurus }} Guru and {{ item.laghus }} Laghu
+                    can be arranged in {{ item.count }} ways.
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="card p-4 mb-4">
+    <h3>Example Explanation</h3>
+
+    <p>
+        If n = {{ result["length"] }}, then each pattern has
+        {{ result["length"] }} syllables.
+    </p>
+
+    <p>
+        The Meru row gives the binomial coefficients:
+    </p>
+
+    <p>
+        {% for item in result["guru_counts"] %}
+            <strong>{{ item.gurus }} Guru → {{ item.count }} patterns</strong><br>
+        {% endfor %}
+    </p>
+
+    <p>
+        So the sum of all counts is:
+        <strong>{{ result["total_patterns"] }}</strong>,
+        which is equal to
+        <strong>2<sup>{{ result["length"] }}</sup></strong>.
+    </p>
 </div>
 
 {% endif %}

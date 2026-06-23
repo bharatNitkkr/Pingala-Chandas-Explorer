@@ -74,8 +74,8 @@ def meru_page():
     result = None
 
     if request.method == "POST":
-        rows = int(request.form["rows"])
-        result = meru_prastara(rows)
+        n = int(request.form["n"])
+        result = meru_prastara(n)
 
     return render_template("meru.html", result=result)
 

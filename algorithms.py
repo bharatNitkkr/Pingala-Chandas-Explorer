@@ -97,11 +97,10 @@ def adhvayoga(n):
     }
 
 
-def meru_prastara(rows):
+def meru_prastara(n):
     triangle = []
 
-    for i in range(rows):
-
+    for i in range(n + 1):
         row = [1]
 
         if i > 0:
@@ -114,7 +113,23 @@ def meru_prastara(rows):
 
         triangle.append(row)
 
+    meru_row = triangle[n]
+
+    guru_counts = []
+
+    for gurus, count in enumerate(meru_row):
+        laghus = n - gurus
+
+        guru_counts.append({
+            "gurus": gurus,
+            "laghus": laghus,
+            "count": count
+        })
+
     return {
-        "rows": rows,
-        "triangle": triangle
+        "length": n,
+        "triangle": triangle,
+        "meru_row": meru_row,
+        "guru_counts": guru_counts,
+        "total_patterns": 2 ** n
     }
