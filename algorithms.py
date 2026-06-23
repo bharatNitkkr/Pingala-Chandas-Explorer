@@ -75,23 +75,55 @@ def nasta(n, index):
     if index < 1 or index > total_patterns:
         return None
 
-    binary_number = bin(index - 1)[2:]
+    q = index
+    bits = []
+    steps = []
 
-    binary_number = binary_number.zfill(n)
+    for step_number in range(1, n + 1):
+        old_q = q
 
-    pattern = ""
-
-    for bit in binary_number:
-        if bit == "1":
-            pattern += "L"
+        if q % 2 == 0:
+            bit = "1"
+            new_q = q // 2
+            operation = f"{q} is even → write 1 → new q = {q} / 2 = {new_q}"
         else:
-            pattern += "G"
+            bit = "0"
+            new_q = (q + 1) // 2
+            operation = f"{q} is odd → write 0 → new q = ({q} + 1) / 2 = {new_q}"
+
+        bits.append(bit)
+
+        steps.append({
+            "step": step_number,
+            "q": old_q,
+            "parity": "Even" if old_q % 2 == 0 else "Odd",
+            "bit": bit,
+            "operation": operation,
+            "new_q": new_q
+        })
+
+        q = new_q
+
+    bit_pattern = "".join(bits)
+
+    laghu_guru_pattern = ""
+
+    for bit in bit_pattern:
+        if bit == "1":
+            laghu_guru_pattern += "L"
+        else:
+            laghu_guru_pattern += "G"
+
+    standard_binary = bin(index - 1)[2:].zfill(n)
 
     return {
         "index": index,
         "length": n,
-        "binary": binary_number,
-        "pattern": pattern
+        "bit_pattern": bit_pattern,
+        "laghu_guru_pattern": laghu_guru_pattern,
+        "standard_binary": standard_binary,
+        "steps": steps,
+        "total_patterns": total_patterns
     }
 
 

@@ -5,24 +5,33 @@
 <h1>Naṣṭa Algorithm</h1>
 
 <p>
-    Naṣṭa means finding a lost pattern. In this algorithm, we recover
-    the Laghu-Guru pattern from its index number.
+    Naṣṭa answers this question: given a rank <strong>r</strong> of a Chandas
+    pattern in its length class <strong>n</strong>, what is the corresponding
+    Laghu-Guru pattern?
+</p>
+
+<p>
+    In this app:
+    <span class="badge bg-success">Laghu = 1</span>
+    <span class="badge bg-warning text-dark">Guru = 0</span>
 </p>
 
 <div class="card p-4 mb-4">
     <form method="POST">
 
         <div class="mb-3">
-            <label class="form-label">Enter number of syllables</label>
-            <input type="number" name="n" class="form-control" min="1" max="12" required>
+            <label class="form-label">Enter pattern length n</label>
+            <input type="number" name="n" class="form-control" min="1" max="20" required>
         </div>
 
         <div class="mb-3">
-            <label class="form-label">Enter index number</label>
+            <label class="form-label">Enter rank r</label>
             <input type="number" name="index" class="form-control" min="1" required>
         </div>
 
-        <button type="submit" class="btn btn-primary">Find Pattern</button>
+        <button type="submit" class="btn btn-primary">
+            Find Pattern
+        </button>
 
     </form>
 </div>
@@ -35,50 +44,119 @@
 
 {% if result %}
 
-<div class="card p-4">
+<div class="card p-4 mb-4">
     <h3>Result</h3>
 
-    <p><strong>Length:</strong> {{ result.length }}</p>
-    <p><strong>Index:</strong> {{ result.index }}</p>
-
-    <hr>
-
-    <h5>Step 1: Convert index to binary</h5>
-
     <p>
-        We use index - 1 because binary counting starts from 0.
+        Length n:
+        <strong>{{ result["length"] }}</strong>
     </p>
 
     <p>
-        <strong>{{ result.index }} - 1 = {{ result.index - 1 }}</strong>
+        Rank r:
+        <strong>{{ result["index"] }}</strong>
     </p>
 
     <p>
-        Binary form:
-        <span class="badge bg-dark fs-6">{{ result.binary }}</span>
+        Pingala Bit Pattern:
+        <span class="badge bg-dark fs-6">{{ result["bit_pattern"] }}</span>
     </p>
-
-    <hr>
-
-    <h5>Step 2: Convert binary digits to Chandas pattern</h5>
 
     <p>
-        1 → Laghu &nbsp;&nbsp; 0 → Guru
-    </p>
-
-    <div class="mb-3">
-        {% for ch in result.pattern %}
+        Laghu-Guru Pattern:
+        {% for ch in result["laghu_guru_pattern"] %}
             {% if ch == "L" %}
                 <span class="badge bg-success fs-6">Laghu</span>
             {% else %}
                 <span class="badge bg-warning text-dark fs-6">Guru</span>
             {% endif %}
         {% endfor %}
-    </div>
+    </p>
+
+    <h4>
+        Final Pattern:
+        <span class="badge bg-primary">{{ result["laghu_guru_pattern"] }}</span>
+    </h4>
+</div>
+
+<div class="card p-4 mb-4">
+    <h3>Naṣṭa Algorithm Steps</h3>
 
     <p>
-        Final Pattern:
-        <strong>{{ result.pattern }}</strong>
+        Start with <strong>q = r</strong>.
+        If q is even, write 1 and set q = q / 2.
+        If q is odd, write 0 and set q = (q + 1) / 2.
+        Continue until n bits are obtained.
+    </p>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Step</th>
+                <th>Current q</th>
+                <th>Odd / Even</th>
+                <th>Bit Written</th>
+                <th>Operation</th>
+                <th>New q</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for step in result["steps"] %}
+            <tr>
+                <td>{{ step.step }}</td>
+                <td>{{ step.q }}</td>
+                <td>{{ step.parity }}</td>
+                <td>{{ step.bit }}</td>
+                <td>{{ step.operation }}</td>
+                <td>{{ step.new_q }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="card p-4 mb-4">
+    <h3>Important Note</h3>
+
+    <p>
+        In normal modern binary, rank r corresponds to r - 1.
+    </p>
+
+    <p>
+        For this input:
+    </p>
+
+    <p>
+        Standard binary of r - 1:
+        <span class="badge bg-secondary fs-6">{{ result["standard_binary"] }}</span>
+    </p>
+
+    <p>
+        Pingala's pattern used here:
+        <span class="badge bg-dark fs-6">{{ result["bit_pattern"] }}</span>
+    </p>
+
+    <p>
+        The ordering is consistent with the Uddiṣṭa algorithm used in the lecture.
+    </p>
+</div>
+
+<div class="card p-4 mb-4">
+    <h3>Example Meaning</h3>
+
+    <p>
+        If rank r = 5 and length n = 3, the algorithm gives:
+    </p>
+
+    <p>
+        <strong>001</strong>
+        =
+        <strong>Guru Guru Laghu</strong>
+    </p>
+
+    <p>
+        This is the same example shown in the lecture.
     </p>
 </div>
 

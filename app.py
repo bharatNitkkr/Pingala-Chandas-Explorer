@@ -30,7 +30,7 @@ def nasta_page():
         result = nasta(n, index)
 
         if result is None:
-            error = f"Invalid index. For n = {n}, index must be between 1 and {2 ** n}."
+            error = f"Invalid rank. For n = {n}, rank must be between 1 and {2 ** n}."
 
     return render_template("nasta.html", result=result, error=error)
 
