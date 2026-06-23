@@ -10,13 +10,12 @@ def home():
 @app.route("/prastara", methods=["GET", "POST"])
 def prastara_page():
     result = None
-    n = None
 
     if request.method == "POST":
         n = int(request.form["n"])
         result = prastara(n)
 
-    return render_template("prastara.html", result=result, n=n)
+    return render_template("prastara.html", result=result)
 
 @app.route("/nasta", methods=["GET", "POST"])
 def nasta_page():

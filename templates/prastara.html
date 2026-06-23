@@ -5,61 +5,132 @@
 <h1>Prastāra Algorithm</h1>
 
 <p>
-    Prastāra means expansion or enumeration. It generates all possible
-    Laghu-Guru patterns for a given number of syllables.
+    Prastāra means expansion or enumeration. Given a pattern length
+    <strong>n</strong>, it lists all possible Laghu-Guru patterns in that
+    length class.
+</p>
+
+<p>
+    In this app:
+    <span class="badge bg-success">Laghu = 1</span>
+    <span class="badge bg-warning text-dark">Guru = 0</span>
 </p>
 
 <div class="card p-4 mb-4">
     <form method="POST">
         <div class="mb-3">
-            <label class="form-label">Enter number of syllables</label>
-            <input type="number" name="n" class="form-control" min="1" max="8" required>
+            <label class="form-label">Enter pattern length n</label>
+            <input type="number" name="n" class="form-control" min="1" max="10" required>
         </div>
 
-        <button type="submit" class="btn btn-primary">Generate Patterns</button>
+        <button type="submit" class="btn btn-primary">
+            Generate Prastāra
+        </button>
     </form>
 </div>
 
 {% if result %}
-<h3>Result for n = {{ n }}</h3>
 
-<p>Total patterns: <strong>{{ result|length }}</strong></p>
+<div class="card p-4 mb-4">
+    <h3>Result</h3>
 
-<table class="table table-bordered table-striped">
-    <thead>
-        <tr>
-            <th>Index</th>
-            <th>Pattern</th>
-            <th>Binary Form</th>
-        </tr>
-    </thead>
+    <p>
+        Pattern length:
+        <strong>{{ result["length"] }}</strong>
+    </p>
 
-    <tbody>
-        {% for pattern in result %}
-        <tr>
-            <td>{{ loop.index }}</td>
-            <td>
-                {% for ch in pattern %}
-                    {% if ch == "L" %}
-                        <span class="badge bg-success">Laghu</span>
-                    {% else %}
-                        <span class="badge bg-warning text-dark">Guru</span>
-                    {% endif %}
-                {% endfor %}
-            </td>
-            <td>
-                {% for ch in pattern %}
-                    {% if ch == "L" %}
-                        1
-                    {% else %}
-                        0
-                    {% endif %}
-                {% endfor %}
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+    <p>
+        Total patterns:
+        <strong>
+            2<sup>{{ result["length"] }}</sup> = {{ result["total_patterns"] }}
+        </strong>
+    </p>
+</div>
+
+<div class="card p-4 mb-4">
+    <h3>Prastāra Order</h3>
+
+    <p>
+        The lecture-style order starts with all 0s, meaning all Guru.
+        Then the leftmost bit changes fastest.
+    </p>
+
+    <p>
+        For n = 3, the order becomes:
+    </p>
+
+    <p>
+        <strong>000, 100, 010, 110, 001, 101, 011, 111</strong>
+    </p>
+
+    <p>
+        This is the standard binary sequence when read from right to left.
+    </p>
+</div>
+
+<div class="card p-4 mb-4">
+    <h3>Generated Patterns</h3>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Rank</th>
+                <th>Bit Pattern</th>
+                <th>Laghu-Guru Pattern</th>
+                <th>Visual Form</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for item in result["patterns"] %}
+            <tr>
+                <td>{{ item.rank }}</td>
+
+                <td>
+                    <span class="badge bg-dark fs-6">
+                        {{ item.bit_pattern }}
+                    </span>
+                </td>
+
+                <td>
+                    <strong>{{ item.laghu_guru_pattern }}</strong>
+                </td>
+
+                <td>
+                    {% for ch in item.laghu_guru_pattern %}
+                        {% if ch == "L" %}
+                            <span class="badge bg-success fs-6">Laghu</span>
+                        {% else %}
+                            <span class="badge bg-warning text-dark fs-6">Guru</span>
+                        {% endif %}
+                    {% endfor %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="card p-4 mb-4">
+    <h3>Why This Order Matters</h3>
+
+    <p>
+        This Prastāra order is consistent with the Naṣṭa and Uddiṣṭa
+        algorithms used in the lecture.
+    </p>
+
+    <p>
+        For example, when n = 3:
+    </p>
+
+    <ul>
+        <li>Rank 1 → 000 → Guru Guru Guru</li>
+        <li>Rank 2 → 100 → Laghu Guru Guru</li>
+        <li>Rank 5 → 001 → Guru Guru Laghu</li>
+        <li>Rank 8 → 111 → Laghu Laghu Laghu</li>
+    </ul>
+</div>
+
 {% endif %}
 
 {% endblock %}

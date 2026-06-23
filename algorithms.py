@@ -1,16 +1,38 @@
 def prastara(n):
-    result = []
+    patterns = []
 
-    def generate(current, length):
-        if length == n:
-            result.append(current)
-            return
+    total_patterns = 2 ** n
 
-        generate(current + "L", length + 1)
-        generate(current + "G", length + 1)
+    for rank in range(1, total_patterns + 1):
+        number = rank - 1
 
-    generate("", 0)
-    return result
+        bits = []
+
+        for i in range(n):
+            bit = (number // (2 ** i)) % 2
+            bits.append(str(bit))
+
+        bit_pattern = "".join(bits)
+
+        laghu_guru_pattern = ""
+
+        for bit in bit_pattern:
+            if bit == "1":
+                laghu_guru_pattern += "L"
+            else:
+                laghu_guru_pattern += "G"
+
+        patterns.append({
+            "rank": rank,
+            "bit_pattern": bit_pattern,
+            "laghu_guru_pattern": laghu_guru_pattern
+        })
+
+    return {
+        "length": n,
+        "total_patterns": total_patterns,
+        "patterns": patterns
+    }
 
 
 '''def sankhya(n):
