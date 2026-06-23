@@ -45,7 +45,7 @@ def uddista_page():
         result = uddista(pattern)
 
         if result is None:
-            error = "Invalid pattern. Please use only L for Laghu and G for Guru."
+            error = "Invalid pattern. Please use L/G or 0/1 only."
 
     return render_template("uddista.html", result=result, error=error)
 

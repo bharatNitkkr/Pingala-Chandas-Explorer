@@ -5,9 +5,14 @@
 <h1>Uddiṣṭa Algorithm</h1>
 
 <p>
-    Uddiṣṭa means finding the position of a given pattern.
-    In this algorithm, we convert a Laghu-Guru pattern into binary
-    and then calculate its index.
+    Uddiṣṭa answers this question: given a particular Laghu-Guru pattern,
+    what is its rank order in its length class?
+</p>
+
+<p>
+    In this app:
+    <span class="badge bg-success">Laghu = 1</span>
+    <span class="badge bg-warning text-dark">Guru = 0</span>
 </p>
 
 <div class="card p-4 mb-4">
@@ -15,13 +20,21 @@
 
         <div class="mb-3">
             <label class="form-label">Enter Laghu-Guru Pattern</label>
-            <input type="text" name="pattern" class="form-control" placeholder="Example: LGG" required>
+            <input
+                type="text"
+                name="pattern"
+                class="form-control"
+                placeholder="Example: GGL or 001"
+                required>
+
             <small class="text-muted">
-                Use L for Laghu and G for Guru.
+                You may enter L/G form such as GGL, or binary form such as 001.
             </small>
         </div>
 
-        <button type="submit" class="btn btn-primary">Find Index</button>
+        <button type="submit" class="btn btn-primary">
+            Find Rank
+        </button>
 
     </form>
 </div>
@@ -34,60 +47,134 @@
 
 {% if result %}
 
-<div class="card p-4">
+<div class="card p-4 mb-4">
     <h3>Result</h3>
 
-    <p><strong>Input Pattern:</strong> {{ result.pattern }}</p>
-    <p><strong>Length:</strong> {{ result.length }}</p>
-
-    <hr>
-
-    <h5>Step 1: Convert Laghu-Guru pattern to binary</h5>
-
     <p>
-        Laghu → 1 &nbsp;&nbsp; Guru → 0
-    </p>
-
-    <div class="mb-3">
-        {% for ch in result.pattern %}
-            {% if ch == "L" %}
-                <span class="badge bg-success fs-6">Laghu</span>
-            {% else %}
-                <span class="badge bg-warning text-dark fs-6">Guru</span>
-            {% endif %}
-        {% endfor %}
-    </div>
-
-    <p>
-        Binary form:
-        <span class="badge bg-dark fs-6">{{ result.binary }}</span>
-    </p>
-
-    <hr>
-
-    <h5>Step 2: Convert binary to decimal</h5>
-
-    <p>
-        <strong>{{ result.binary }}</strong> in binary =
-        <strong>{{ result.decimal }}</strong> in decimal
-    </p>
-
-    <hr>
-
-    <h5>Step 3: Add 1 to get index</h5>
-
-    <p>
-        Since our index starts from 1:
+        Input Pattern:
+        <strong>{{ result["input_pattern"] }}</strong>
     </p>
 
     <p>
-        <strong>{{ result.decimal }} + 1 = {{ result.index }}</strong>
+        Bit Pattern:
+        <span class="badge bg-dark fs-6">{{ result["bit_pattern"] }}</span>
+    </p>
+
+    <p>
+        Length:
+        <strong>{{ result["length"] }}</strong>
     </p>
 
     <h4>
-        Final Index:
-        <span class="badge bg-primary">{{ result.index }}</span>
+        Final Rank:
+        <span class="badge bg-primary">{{ result["rank"] }}</span>
     </h4>
+</div>
+
+<div class="card p-4 mb-4">
+    <h3>Uddiṣṭa Algorithm 1</h3>
+
+    <p>
+        Start with <strong>r = 1</strong>. Proceed from right to left.
+    </p>
+
+    <ul>
+        <li>If the bit is 1, then new r = 2r.</li>
+        <li>If the bit is 0, then new r = 2r - 1.</li>
+    </ul>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Bit Read</th>
+                <th>Old r</th>
+                <th>Operation</th>
+                <th>New r</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for step in result["steps_algorithm_1"] %}
+            <tr>
+                <td>{{ step.bit }}</td>
+                <td>{{ step.old_r }}</td>
+                <td>{{ step.operation }}</td>
+                <td>{{ step.new_r }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="card p-4 mb-4">
+    <h3>Uddiṣṭa Algorithm 2</h3>
+
+    <p>
+        This is the modern binary-to-decimal style method shown in the lecture.
+        Write 1, 2, 4, 8, ... under the bits from left to right.
+        Discard the weights under 0, add the remaining weights, and finally add 1.
+    </p>
+
+    <table class="table table-bordered text-center">
+        <thead>
+            <tr>
+                <th>Bit</th>
+                {% for item in result["weights"] %}
+                    <th>{{ item.bit }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+                <th>Weight</th>
+                {% for item in result["weights"] %}
+                    <td>{{ item.weight }}</td>
+                {% endfor %}
+            </tr>
+
+            <tr>
+                <th>Selected?</th>
+                {% for item in result["weights"] %}
+                    <td>
+                        {% if item.selected %}
+                            <span class="badge bg-success">{{ item.weight }}</span>
+                        {% else %}
+                            <span class="text-muted">-</span>
+                        {% endif %}
+                    </td>
+                {% endfor %}
+            </tr>
+        </tbody>
+    </table>
+
+    <p>
+        Sum of selected weights:
+        <strong>{{ result["selected_sum"] }}</strong>
+    </p>
+
+    <p>
+        Rank = selected sum + 1 =
+        <strong>{{ result["selected_sum"] }} + 1 = {{ result["rank_by_binary_method"] }}</strong>
+    </p>
+</div>
+
+<div class="card p-4 mb-4">
+    <h3>Meaning</h3>
+
+    <p>
+        The pattern
+        <strong>{{ result["bit_pattern"] }}</strong>
+        has rank
+        <strong>{{ result["rank"] }}</strong>
+        in its length class.
+    </p>
+
+    <p>
+        For example, the lecture shows pattern <strong>001</strong>.
+        Its rank becomes <strong>5</strong>, not 2, because the weights are
+        assigned from left to right as 1, 2, 4.
+    </p>
 </div>
 
 {% endif %}

@@ -96,30 +96,69 @@ def nasta(n, index):
 
 
 def uddista(pattern):
-    pattern = pattern.upper()
+    pattern = pattern.upper().strip()
 
     for ch in pattern:
-        if ch not in ["L", "G"]:
+        if ch not in ["L", "G", "0", "1"]:
             return None
 
-    binary_number = ""
+    bit_pattern = ""
 
     for ch in pattern:
-        if ch == "L":
-            binary_number += "1"
+        if ch == "L" or ch == "1":
+            bit_pattern += "1"
         else:
-            binary_number += "0"
+            bit_pattern += "0"
 
-    decimal_value = int(binary_number, 2)
+    r = 1
+    steps_algorithm_1 = []
 
-    index = decimal_value + 1
+    for bit in reversed(bit_pattern):
+        old_r = r
+
+        if bit == "1":
+            r = 2 * r
+            operation = f"2 × {old_r} = {r}"
+        else:
+            r = (2 * r) - 1
+            operation = f"2 × {old_r} - 1 = {r}"
+
+        steps_algorithm_1.append({
+            "bit": bit,
+            "old_r": old_r,
+            "operation": operation,
+            "new_r": r
+        })
+
+    weights = []
+    selected_sum = 0
+
+    for i, bit in enumerate(bit_pattern):
+        weight = 2 ** i
+
+        if bit == "1":
+            selected_sum += weight
+            selected = True
+        else:
+            selected = False
+
+        weights.append({
+            "bit": bit,
+            "weight": weight,
+            "selected": selected
+        })
+
+    rank_by_binary_method = selected_sum + 1
 
     return {
-        "pattern": pattern,
-        "binary": binary_number,
-        "decimal": decimal_value,
-        "index": index,
-        "length": len(pattern)
+        "input_pattern": pattern,
+        "bit_pattern": bit_pattern,
+        "length": len(bit_pattern),
+        "rank": r,
+        "steps_algorithm_1": steps_algorithm_1,
+        "weights": weights,
+        "selected_sum": selected_sum,
+        "rank_by_binary_method": rank_by_binary_method
     }
 
 
