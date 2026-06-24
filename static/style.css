@@ -11,3 +11,9 @@ body {
     transform: translateY(-3px);
     transition: 0.2s;
 }
+
+.sanskrit-text {
+    font-size: 1.0rem;
+    line-height: 2;
+    font-weight: 500;
+}

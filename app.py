@@ -91,5 +91,10 @@ def learn_chandas():
 def lecture_interpretation():
     return render_template("lecture_interpretation.html")
 
+
+@app.route("/sutra-details")
+def sutra_details():
+    return render_template("sutra_details.html")
+
 if __name__ == "__main__":
     app.run(debug=True)

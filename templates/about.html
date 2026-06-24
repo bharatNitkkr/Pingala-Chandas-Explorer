@@ -1,24 +1,38 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>About This Project</h1>
-<p>
-    This project explains the mathematical and computational ideas
-    found in Pingala’s Chandaḥśāstra.
+
+<h1>About Pingala Chandas Explorer</h1>
+
+<p class="lead">
+    Pingala Chandas Explorer is an educational web application that connects
+    Sanskrit Chandas, ancient Indian combinatorics, binary representation,
+    and modern computer science.
 </p>
 
-<!-- <div class="alert alert-secondary">
-
-    This web application is an independent educational project.
-    The explanations, visualizations, and implementations are created
-    for learning purposes and are not an official IIT Kanpur product.
-
-</div> -->
-
-<h3>Primary Reference</h3>
+<div class="card p-4 mb-4">
+    <h3>Project Overview</h3>
 
     <p>
-        This project is inspired by the academic lecture:
+        This project demonstrates the mathematical ideas found in Piṅgala's
+        Chandaḥsūtra through interactive algorithms and visual explanations.
+        The main goal is to help learners understand how Laghu-Guru patterns
+        in Sanskrit prosody naturally lead to binary sequences, counting
+        methods, ranking, unranking, and combinatorial structures.
+    </p>
+
+    <p>
+        The application was developed as a working educational prototype for
+        studying the relationship between Sanskrit Chandas and computational
+        thinking.
+    </p>
+</div>
+
+<div class="card p-4 mb-4">
+    <h3>Inspiration</h3>
+
+    <p>
+        This project is inspired by the lecture:
     </p>
 
     <blockquote class="blockquote">
@@ -33,12 +47,164 @@
         IIT Kanpur
     </p>
 
-<a
-        href="https://youtu.be/KvDMO2y3Y2s"
-        target="_blank"
-        class="btn btn-primary">
+    <p>
+        The lecture explains how the Laghu-Guru structure of Sanskrit Chandas
+        can be studied using binary representation and combinatorial algorithms.
+    </p>
+</div>
 
-        Watch Original Lecture
-</a>
+<div class="card p-4 mb-4">
+    <h3>Algorithms Covered</h3>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Algorithm</th>
+                <th>Purpose</th>
+                <th>Modern Interpretation</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+                <td>Prastāra</td>
+                <td>Enumerates all possible Laghu-Guru patterns of length n</td>
+                <td>Binary pattern generation</td>
+            </tr>
+
+            <tr>
+                <td>Naṣṭa</td>
+                <td>Finds the Laghu-Guru pattern from a given rank</td>
+                <td>Unranking algorithm</td>
+            </tr>
+
+            <tr>
+                <td>Uddiṣṭa</td>
+                <td>Finds the rank of a given Laghu-Guru pattern</td>
+                <td>Ranking algorithm</td>
+            </tr>
+
+            <tr>
+                <td>Saṁkhyāna</td>
+                <td>Counts total patterns for a given length</td>
+                <td>Calculation of 2<sup>n</sup> using repeated squaring</td>
+            </tr>
+
+            <tr>
+                <td>Adhvayōga</td>
+                <td>Counts all patterns up to a given length n</td>
+                <td>Geometric series: 2<sup>1</sup> + 2<sup>2</sup> + ... + 2<sup>n</sup></td>
+            </tr>
+
+            <tr>
+                <td>Lagakriyā / Meru-Prastāra</td>
+                <td>Counts patterns with exactly 0 Guru, 1 Guru, 2 Guru, etc.</td>
+                <td>Binomial coefficients and Pascal's Triangle</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="card p-4 mb-4">
+    <h3>Key Concepts</h3>
+
+    <ul>
+        <li><strong>Laghu:</strong> A short syllable, represented as 1 in this app.</li>
+        <li><strong>Guru:</strong> A long syllable, represented as 0 in this app.</li>
+        <li><strong>Chandas:</strong> The study of poetic meter in Sanskrit.</li>
+        <li><strong>Prastāra:</strong> Expansion of all possible patterns.</li>
+        <li><strong>Meru:</strong> A triangular arrangement corresponding to binomial coefficients.</li>
+        <li><strong>Binary Representation:</strong> A two-symbol system that connects Laghu and Guru with modern computation.</li>
+    </ul>
+</div>
+
+<div class="card p-4 mb-4">
+    <h3>Sūtra-Based Study</h3>
+
+    <p>
+        The project also includes a dedicated Sūtra Details section. This section
+        connects each algorithm with the corresponding sūtras from Piṅgala's
+        Chandaḥsūtra and provides:
+    </p>
+
+    <ul>
+        <li>Original Sanskrit sūtra text</li>
+        <li>Padaccheda</li>
+        <li>Word-by-word meaning</li>
+        <li>Algorithmic interpretation</li>
+        <li>Examples based on the lecture method</li>
+    </ul>
+
+    <a href="/sutra-details" class="btn btn-outline-dark">
+        View Sūtra Details
+    </a>
+</div>
+
+<!--<div class="card p-4 mb-4">
+    <h3>Technology Stack</h3>
+
+    <p>
+        This project is built using a simple full-stack web development setup:
+    </p>
+
+    <ul>
+        <li><strong>Backend:</strong> Python, Flask</li>
+        <li><strong>Frontend:</strong> HTML, CSS, Bootstrap</li>
+        <li><strong>Deployment:</strong> Render</li>
+        <li><strong>Version Control:</strong> Git and GitHub</li>
+    </ul>
+</div>-->
+
+<div class="card p-4 mb-4">
+    <h3>Educational Purpose</h3>
+
+    <p>
+        This application is designed for students, researchers, and learners who
+        want to explore the mathematical structure of Sanskrit Chandas in an
+        interactive way.
+    </p>
+
+    <p>
+        It is not intended to replace traditional study of Chandaḥśāstra, but to
+        support it by showing how the algorithms can be understood through
+        computation and visualization.
+    </p>
+</div>
+
+<!--<div class="card p-4 mb-4">
+    <h3>Future Scope</h3>
+
+    <p>
+        Possible future improvements include:
+    </p>
+
+    <ul>
+        <li>Interactive Laghu-Guru pattern builder</li>
+        <li>Step-by-step visual animations of each algorithm</li>
+        <li>Improved Meru-Prastāra visualization</li>
+        <li>Binary-to-Chandas and Chandas-to-Binary converter</li>
+        <li>Examples from actual Sanskrit verses</li>
+        <li>Automatic Laghu-Guru marking for Sanskrit input</li>
+        <li>Chandas identification from a given verse</li>
+    </ul>
+</div>-->
+
+<!--<div class="alert alert-secondary">
+    <strong>Note:</strong>
+    This web application is an independent educational project inspired by
+    Prof. Arnab Bhattacharya's lecture and the study of Piṅgala's Chandaḥsūtra.
+    It is prepared for learning and academic discussion, and it is not an
+    official IIT Kanpur product.
+</div>-->
+
+<div class="card p-4 mb-4">
+    <h3>Developer</h3>
+
+    <p>
+        Developed by Bharat<br>
+        B.Tech, ECE<br>
+        NIT Kurukshetra
+    </p>
+</div>
 
 {% endblock %}

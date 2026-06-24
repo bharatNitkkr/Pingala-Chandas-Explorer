@@ -1,0 +1,514 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Sūtra Details from Piṅgala's Chandaḥsūtra</h1>
+
+<p>
+    This section connects each algorithm in the application with the corresponding
+    sūtras from Piṅgala's Chandaḥsūtra. The text is written in compact sūtra style,
+    so the algorithmic meaning is traditionally understood with the help of commentary,
+    especially Halāyudha's commentary.
+</p>
+
+<!--<div class="alert alert-warning">
+    <strong>Note:</strong>
+    This is a working academic draft prepared for study and mentor review.
+    The sūtra readings and padaccheda should be finally checked against a printed
+    or critical edition of Piṅgala's Chandaḥsūtra with Halāyudha's commentary.
+</div>-->
+
+<hr>
+
+<div class="card p-4 mb-4">
+    <h2>1. Prastāra Algorithm</h2>
+
+    <p>
+        <strong>Purpose:</strong>
+        To enumerate all possible Laghu-Guru patterns for a given length.
+    </p>
+
+    <h4>Original Sūtras</h4>
+
+    <p class="sanskrit-text">
+        द्विको ग्लौ ॥ ८.२० ॥<br>
+        मिश्री च ॥ ८.२१ ॥<br>
+        पृथग्ला मिश्राः ॥ ८.२२ ॥<br>
+        वसवस्त्रिकाः ॥ ८.२३ ॥
+    </p>
+
+    <h4>Padaccheda</h4>
+
+    <p class="sanskrit-text">
+        द्विकः + ग्लौ<br>
+        मिश्री + च<br>
+        पृथक् + लाः + मिश्राः<br>
+        वसवः + त्रिकाः
+    </p>
+
+    <h4>Word Meaning</h4>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Term</th>
+                <th>Meaning</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>ग्</td>
+                <td>Guru</td>
+            </tr>
+            <tr>
+                <td>ल्</td>
+                <td>Laghu</td>
+            </tr>
+            <tr>
+                <td>मिश्री</td>
+                <td>Mixed / combined arrangement</td>
+            </tr>
+            <tr>
+                <td>पृथक्</td>
+                <td>Separately</td>
+            </tr>
+            <tr>
+                <td>त्रिकाः</td>
+                <td>Groups of three / triples</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h4>Algorithmic Interpretation</h4>
+
+    <p>
+        Prastāra expands a given length into all possible arrangements of
+        Guru and Laghu. In the lecture-style order, for n = 3, the patterns are:
+    </p>
+
+    <p>
+        <span class="badge bg-dark fs-6">000</span>
+        <span class="badge bg-dark fs-6">100</span>
+        <span class="badge bg-dark fs-6">010</span>
+        <span class="badge bg-dark fs-6">110</span>
+        <span class="badge bg-dark fs-6">001</span>
+        <span class="badge bg-dark fs-6">101</span>
+        <span class="badge bg-dark fs-6">011</span>
+        <span class="badge bg-dark fs-6">111</span>
+    </p>
+
+    <p>
+        Here <strong>0 = Guru</strong> and <strong>1 = Laghu</strong>.
+    </p>
+</div>
+
+<div class="card p-4 mb-4">
+    <h2>2. Naṣṭa Algorithm</h2>
+
+    <p>
+        <strong>Purpose:</strong>
+        Given a rank number, recover the corresponding Laghu-Guru pattern.
+    </p>
+
+    <h4>Original Sūtras</h4>
+
+    <p class="sanskrit-text">
+        लर्धे ॥ ८.२४ ॥<br>
+        सैके ग् ॥ ८.२५ ॥
+    </p>
+
+    <h4>Padaccheda</h4>
+
+    <p class="sanskrit-text">
+        ल् + अर्धे<br>
+        स + एके + ग्
+    </p>
+
+    <h4>Word Meaning</h4>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Term</th>
+                <th>Meaning</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>ल्</td>
+                <td>Laghu</td>
+            </tr>
+            <tr>
+                <td>अर्धे</td>
+                <td>On halving / when divided by two</td>
+            </tr>
+            <tr>
+                <td>सैके</td>
+                <td>With one added</td>
+            </tr>
+            <tr>
+                <td>ग्</td>
+                <td>Guru</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h4>Algorithmic Interpretation</h4>
+
+    <p>
+        Start with rank <strong>q = r</strong>.
+        If q is even, write <strong>1 / Laghu</strong> and set q = q / 2.
+        If q is odd, write <strong>0 / Guru</strong> and set q = (q + 1) / 2.
+        Continue until n bits are obtained.
+    </p>
+
+    <h4>Example</h4>
+
+    <p>
+        Rank r = 5, length n = 3:
+    </p>
+
+    <ul>
+        <li>5 is odd → write 0 → q = (5 + 1) / 2 = 3</li>
+        <li>3 is odd → write 0 → q = (3 + 1) / 2 = 2</li>
+        <li>2 is even → write 1 → q = 2 / 2 = 1</li>
+    </ul>
+
+    <p>
+        Pattern:
+        <span class="badge bg-dark fs-6">001</span>
+        =
+        <strong>Guru Guru Laghu</strong>
+    </p>
+</div>
+
+<div class="card p-4 mb-4">
+    <h2>3. Uddiṣṭa Algorithm</h2>
+
+    <p>
+        <strong>Purpose:</strong>
+        Given a Laghu-Guru pattern, find its rank in its length class.
+    </p>
+
+    <h4>Original Sūtras</h4>
+
+    <p class="sanskrit-text">
+        प्रतिलोमगणं द्विः लाद्यम् ॥ ८.२६ ॥<br>
+        ततो गि एकं जह्यात् ॥ ८.२७ ॥
+    </p>
+
+    <h4>Padaccheda</h4>
+
+    <p class="sanskrit-text">
+        प्रतिलोम-गणम् + द्विः + ल्-आद्यम्<br>
+        ततः + गि + एकम् + जह्यात्
+    </p>
+
+    <h4>Word Meaning</h4>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Term</th>
+                <th>Meaning</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>प्रतिलोम</td>
+                <td>Reverse order</td>
+            </tr>
+            <tr>
+                <td>गणम्</td>
+                <td>Counting / calculation</td>
+            </tr>
+            <tr>
+                <td>द्विः</td>
+                <td>Twice</td>
+            </tr>
+            <tr>
+                <td>ल्-आद्यम्</td>
+                <td>Beginning with Laghu</td>
+            </tr>
+            <tr>
+                <td>गि</td>
+                <td>When Guru occurs</td>
+            </tr>
+            <tr>
+                <td>एकम् जह्यात्</td>
+                <td>Subtract one</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h4>Algorithmic Interpretation</h4>
+
+    <p>
+        Start with <strong>r = 1</strong>. Read the pattern from right to left.
+    </p>
+
+    <ul>
+        <li>If the bit is 1 / Laghu, then r = 2r.</li>
+        <li>If the bit is 0 / Guru, then r = 2r - 1.</li>
+    </ul>
+
+    <h4>Example</h4>
+
+    <p>
+        Pattern p =
+        <span class="badge bg-dark fs-6">001</span>
+    </p>
+
+    <ul>
+        <li>Start r = 1</li>
+        <li>Read 1 → r = 2 × 1 = 2</li>
+        <li>Read 0 → r = 2 × 2 - 1 = 3</li>
+        <li>Read 0 → r = 2 × 3 - 1 = 5</li>
+    </ul>
+
+    <p>
+        Final rank = <strong>5</strong>.
+    </p>
+</div>
+
+<div class="card p-4 mb-4">
+    <h2>4. Saṁkhyāna Algorithm</h2>
+
+    <p>
+        <strong>Purpose:</strong>
+        To find the total number of patterns for a given length n.
+    </p>
+
+    <h4>Original Sūtras</h4>
+
+    <p class="sanskrit-text">
+        द्विः अर्धे ॥ ८.२८ ॥<br>
+        रूपे शून्यम् ॥ ८.२९ ॥<br>
+        द्विः शून्ये ॥ ८.३० ॥<br>
+        तावदर्धे तद्गुणितम् ॥ ८.३१ ॥
+    </p>
+
+    <h4>Padaccheda</h4>
+
+    <p class="sanskrit-text">
+        द्विः + अर्धे<br>
+        रूपे + शून्यम्<br>
+        द्विः + शून्ये<br>
+        तावत् + अर्धे + तत् + गुणितम्
+    </p>
+
+    <h4>Word Meaning</h4>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Term</th>
+                <th>Meaning</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>द्विः</td>
+                <td>Two / twice</td>
+            </tr>
+            <tr>
+                <td>अर्धे</td>
+                <td>On halving</td>
+            </tr>
+            <tr>
+                <td>रूपे</td>
+                <td>When one remains</td>
+            </tr>
+            <tr>
+                <td>शून्यम्</td>
+                <td>Zero</td>
+            </tr>
+            <tr>
+                <td>गुणितम्</td>
+                <td>Multiplied</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h4>Algorithmic Interpretation</h4>
+
+    <p>
+        Saṁkhyāna calculates the total number of patterns:
+        <strong>2<sup>n</sup></strong>.
+        The lecture explains this through a repeated-squaring style calculation.
+    </p>
+
+    <h4>Example</h4>
+
+    <p>
+        For n = 10:
+    </p>
+
+    <ul>
+        <li>10 / 2 = 5</li>
+        <li>5 - 1 = 4</li>
+        <li>4 / 2 = 2</li>
+        <li>2 / 2 = 1</li>
+        <li>1 - 1 = 0</li>
+    </ul>
+
+    <p>
+        Reconstructing gives:
+        <strong>2<sup>10</sup> = 1024</strong>.
+    </p>
+</div>
+
+<div class="card p-4 mb-4">
+    <h2>5. Adhvayōga Algorithm</h2>
+
+    <p>
+        <strong>Purpose:</strong>
+        To count all patterns up to a given length n.
+    </p>
+
+    <h4>Original Sūtra</h4>
+
+    <p class="sanskrit-text">
+        द्विद्यूनं तदन्तानाम् ॥ ८.३२ ॥
+    </p>
+
+    <h4>Padaccheda</h4>
+
+    <p class="sanskrit-text">
+        द्विः + द्वि-ऊनम् + तत्-अन्तानाम्
+    </p>
+
+    <h4>Word Meaning</h4>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Term</th>
+                <th>Meaning</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>द्विः</td>
+                <td>Twice / power of two</td>
+            </tr>
+            <tr>
+                <td>ऊनम्</td>
+                <td>Less / reduced by</td>
+            </tr>
+            <tr>
+                <td>तदन्तानाम्</td>
+                <td>Of those ending at that point / up to that length</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h4>Algorithmic Interpretation</h4>
+
+    <p>
+        Adhvayōga calculates:
+    </p>
+
+    <p>
+        <strong>
+            2<sup>1</sup> + 2<sup>2</sup> + ... + 2<sup>n</sup>
+            =
+            2<sup>n + 1</sup> - 2
+        </strong>
+    </p>
+</div>
+
+<div class="card p-4 mb-4">
+    <h2>6. Lagakriyā / Meru-Prastāra</h2>
+
+    <p>
+        <strong>Purpose:</strong>
+        To find how many patterns of length n contain exactly 0 Guru,
+        1 Guru, 2 Guru, and so on.
+    </p>
+
+    <h4>Original Sūtras</h4>
+
+    <p class="sanskrit-text">
+        परे पूर्णम् ॥ ८.३४ ॥<br>
+        परे पूर्णम् इति ॥ ८.३५ ॥
+    </p>
+
+    <h4>Padaccheda</h4>
+
+    <p class="sanskrit-text">
+        परे + पूर्णम्<br>
+        परे + पूर्णम् + इति
+    </p>
+
+    <h4>Word Meaning</h4>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Term</th>
+                <th>Meaning</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>परे</td>
+                <td>At the end / beyond / next position</td>
+            </tr>
+            <tr>
+                <td>पूर्णम्</td>
+                <td>Filled / complete</td>
+            </tr>
+            <tr>
+                <td>इति</td>
+                <td>Thus</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h4>Algorithmic Interpretation</h4>
+
+    <p>
+        These compact sūtras are interpreted through Halāyudha's commentary
+        as the construction of Meru-Prastāra, corresponding to Pascal's Triangle.
+    </p>
+
+    <p>
+        For n = 4:
+    </p>
+
+    <p>
+        <strong>1 4 6 4 1</strong>
+    </p>
+
+    <p>
+        Meaning:
+    </p>
+
+    <ul>
+        <li>0 Guru → 1 pattern</li>
+        <li>1 Guru → 4 patterns</li>
+        <li>2 Guru → 6 patterns</li>
+        <li>3 Guru → 4 patterns</li>
+        <li>4 Guru → 1 pattern</li>
+    </ul>
+</div>
+
+<div class="card p-4 mb-4">
+    <h2>References Used</h2>
+
+    <ul>
+        <li>Piṅgala's Chandaḥsūtra, Chapter 8</li>
+
+        <a 
+        href="https://archive.org/details/chandahsutram00pinguoft/page/n244/mode/1up"
+        target="_blank">
+            View Chandaḥsūtram : By Piṅgala
+        </a>
+
+        <li>Halāyudha's commentary on Chandaḥsūtra</li>
+        <li>Lecture: “The Art and Science of Sanskrit Chandas: Origins of Binary System and Combinatorics” by Prof. Arnab Bhattacharya, IIT Kanpur</li>
+    </ul>
+</div>
+
+{% endblock %}
