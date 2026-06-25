@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-from algorithms import prastara, nasta, uddista, sankhya, adhvayoga, meru_prastara
+from algorithms import prastara, nasta, uddista, sankhya, adhvayoga, meru_prastara, matra_chandas
 
 app = Flask(__name__)
 
@@ -95,6 +95,17 @@ def lecture_interpretation():
 @app.route("/sutra-details")
 def sutra_details():
     return render_template("sutra_details.html")
+
+
+@app.route("/matra-chandas", methods=["GET", "POST"])
+def matra_chandas_page():
+    result = None
+
+    if request.method == "POST":
+        m = int(request.form["m"])
+        result = matra_chandas(m)
+
+    return render_template("matra_chandas.html", result=result)
 
 if __name__ == "__main__":
     app.run(debug=True)

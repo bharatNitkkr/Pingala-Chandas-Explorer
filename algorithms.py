@@ -278,3 +278,52 @@ def meru_prastara(n):
         "guru_counts": guru_counts,
         "total_patterns": 2 ** n
     }
+    
+    
+def matra_chandas(m):
+    counts = []
+
+    # M(0) = 1 is used internally for recurrence.
+    # It represents the empty pattern.
+    dp = [0] * (m + 1)
+
+    if m >= 0:
+        dp[0] = 1
+
+    if m >= 1:
+        dp[1] = 1
+
+    for i in range(2, m + 1):
+        dp[i] = dp[i - 1] + dp[i - 2]
+
+    for i in range(1, m + 1):
+        counts.append({
+            "matra": i,
+            "formula": f"M({i}) = M({i - 1}) + M({i - 2})" if i >= 2 else "Base case",
+            "count": dp[i]
+        })
+
+    patterns = []
+
+    def generate(remaining, current):
+        if remaining == 0:
+            patterns.append(current)
+            return
+
+        if remaining >= 1:
+            generate(remaining - 1, current + "L")
+
+        if remaining >= 2:
+            generate(remaining - 2, current + "G")
+
+    # Generate actual patterns only for reasonable size
+    if m <= 12:
+        generate(m, "")
+
+    return {
+        "matra": m,
+        "count": dp[m],
+        "counts": counts,
+        "patterns": patterns,
+        "patterns_generated": m <= 12
+    }
