@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Permutation Algorithm</h1>
+
+<p>
+    This algorithm counts and generates arrangements of n distinct objects.
+</p>
+
+<a href="/other-algorithms" class="btn btn-outline-dark mb-4">
+    Back to Other Algorithms
+</a>
+
+<p>
+    If there are n distinct objects, then the number of possible arrangements is:
+</p>
+
+<h4>n!</h4>
+
+<div class="card p-4 mb-4">
+    <h3>Lecture Example</h3>
+
+    <p>
+        In the lecture, the example discussed is Viṣṇu with four hands and four āstras:
+    </p>
+
+    <p>
+        <span class="badge bg-secondary fs-6">Śaṅkha</span>
+        <span class="badge bg-secondary fs-6">Cakra</span>
+        <span class="badge bg-secondary fs-6">Gadā</span>
+        <span class="badge bg-secondary fs-6">Padma</span>
+    </p>
+
+    <p>
+        The number of possible arrangements is:
+    </p>
+
+    <h4>4! = 24</h4>
+</div>
+
+<div class="card p-4 mb-4">
+    <form method="POST">
+        <div class="mb-3">
+            <label class="form-label">Enter items separated by commas</label>
+
+            <input
+                type="text"
+                name="items"
+                class="form-control"
+                value="Śaṅkha, Cakra, Gadā, Padma"
+                required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+            Generate Permutations
+        </button>
+    </form>
+</div>
+
+{% if result %}
+
+<div class="card p-4 mb-4">
+    <h3>Result</h3>
+
+    <p>
+        Items:
+        {% for item in result["items"] %}
+            <span class="badge bg-secondary fs-6">{{ item }}</span>
+        {% endfor %}
+    </p>
+
+    <p>
+        Number of items:
+        <strong>{{ result["n"] }}</strong>
+    </p>
+
+    <h4>
+        Total permutations:
+        <span class="badge bg-primary">
+            {{ result["n"] }}! = {{ result["total"] }}
+        </span>
+    </h4>
+</div>
+
+{% if result["generated"] %}
+
+<div class="card p-4 mb-4">
+    <h3>Generated Permutations</h3>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Index</th>
+                <th>Arrangement</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for perm in result["permutations"] %}
+            <tr>
+                <td>{{ loop.index }}</td>
+
+                <td>
+                    {% for item in perm %}
+                        <span class="badge bg-info text-dark fs-6">{{ item }}</span>
+                    {% endfor %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% else %}
+
+<div class="alert alert-info">
+    Permutations are not displayed for more than 6 items because the number
+    becomes very large. The count is still calculated correctly.
+</div>
+
+{% endif %}
+
+{% endif %}
+
+{% endblock %}

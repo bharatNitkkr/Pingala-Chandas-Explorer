@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-from algorithms import prastara, nasta, uddista, sankhya, adhvayoga, meru_prastara, matra_chandas
+from algorithms import prastara, nasta, uddista, sankhya, adhvayoga, meru_prastara, matra_chandas, matra_meru, permutation_algorithm
 
 app = Flask(__name__)
 
@@ -106,6 +106,34 @@ def matra_chandas_page():
         result = matra_chandas(m)
 
     return render_template("matra_chandas.html", result=result)
+
+
+@app.route("/matra-meru", methods=["GET", "POST"])
+def matra_meru_page():
+    result = None
+
+    if request.method == "POST":
+        m = int(request.form["m"])
+        result = matra_meru(m)
+
+    return render_template("matra_meru.html", result=result)
+
+
+@app.route("/permutation", methods=["GET", "POST"])
+def permutation_page():
+    result = None
+
+    if request.method == "POST":
+        items_text = request.form["items"]
+        items = items_text.split(",")
+        result = permutation_algorithm(items)
+
+    return render_template("permutation.html", result=result)
+
+
+@app.route("/other-algorithms")
+def other_algorithms():
+    return render_template("other_algorithms.html")
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -2,37 +2,36 @@
 
 {% block content %}
 
-<h1>Mātrā Chandaḥ Algorithm</h1>
+<h1>Mātrā Meru / Mātrā Prastāra</h1>
 
 <p>
-    Mātrā Chandaḥ asks this question: how many Chandas patterns can be formed
-    with a total mātrā value of <strong>m</strong>?
-</p>
-
-<p>
-    This is different from counting patterns of a fixed number of akṣaras.
-    Here, the total time-value matters.
-</p>
-
-<p>
-    In this app:
-    <span class="badge bg-success">Laghu = 1 mātrā</span>
-    <span class="badge bg-warning text-dark">Guru = 2 mātrās</span>
+    Mātrā Meru counts how many Chandas patterns of a fixed total mātrā length
+    contain exactly 0 Guru, 1 Guru, 2 Guru, and so on.
 </p>
 
 <a href="/other-algorithms" class="btn btn-outline-dark mb-4">
     Back to Other Algorithms
 </a>
 
+<p>
+    This is similar to binomial coefficients, but here the counting is based
+    on total mātrā value instead of fixed akṣara length.
+</p>
+
+<p>
+    <span class="badge bg-success">Laghu = 1 mātrā</span>
+    <span class="badge bg-warning text-dark">Guru = 2 mātrās</span>
+</p>
+
 <div class="card p-4 mb-4">
     <form method="POST">
         <div class="mb-3">
-            <label class="form-label">Enter total mātrā value m</label>
+            <label class="form-label">Enter total mātrā length m</label>
             <input type="number" name="m" class="form-control" min="1" max="30" required>
         </div>
 
         <button type="submit" class="btn btn-primary">
-            Calculate Mātrā Chandaḥ
+            Generate Mātrā Meru
         </button>
     </form>
 </div>
@@ -43,65 +42,36 @@
     <h3>Result</h3>
 
     <p>
-        Total mātrā value:
+        Total mātrā length:
         <strong>{{ result["matra"] }}</strong>
     </p>
 
-    <h4>
-        Number of possible patterns:
-        <span class="badge bg-primary">{{ result["count"] }}</span>
-    </h4>
-</div>
-
-<div class="card p-4 mb-4">
-    <h3>Core Idea</h3>
-
     <p>
-        A pattern of total mātrā m can end in two ways:
-    </p>
-
-    <ul>
-        <li>
-            It can end with a <strong>Laghu</strong>. Then the remaining mātrā is
-            <strong>m - 1</strong>.
-        </li>
-
-        <li>
-            It can end with a <strong>Guru</strong>. Then the remaining mātrā is
-            <strong>m - 2</strong>.
-        </li>
-    </ul>
-
-    <p>
-        Therefore:
-    </p>
-
-    <h4>
-        M(m) = M(m - 1) + M(m - 2)
-    </h4>
-
-    <p>
-        This gives a Fibonacci-style sequence, also connected with
-        Virahāṅka and Hemacandra numbers.
+        Total possible patterns:
+        <span class="badge bg-primary fs-6">{{ result["total"] }}</span>
     </p>
 </div>
 
 <div class="card p-4 mb-4">
-    <h3>Step-by-Step Count</h3>
+    <h3>Guru-wise Count</h3>
 
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
-                <th>Mātrā m</th>
+                <th>Number of Guru</th>
+                <th>Number of Laghu</th>
+                <th>Total Symbols</th>
                 <th>Formula</th>
                 <th>Number of Patterns</th>
             </tr>
         </thead>
 
         <tbody>
-            {% for item in result["counts"] %}
+            {% for item in result["guru_counts"] %}
             <tr>
-                <td>{{ item.matra }}</td>
+                <td>{{ item.gurus }}</td>
+                <td>{{ item.laghus }}</td>
+                <td>{{ item.total_symbols }}</td>
                 <td>{{ item.formula }}</td>
                 <td>{{ item.count }}</td>
             </tr>
@@ -116,7 +86,7 @@
     <h3>Generated Patterns</h3>
 
     <p>
-        The following patterns all have total mātrā value
+        These patterns all have total mātrā value
         <strong>{{ result["matra"] }}</strong>.
     </p>
 
@@ -125,32 +95,32 @@
             <tr>
                 <th>Index</th>
                 <th>Pattern</th>
+                <th>Guru Count</th>
+                <th>Laghu Count</th>
                 <th>Visual Form</th>
-                <th>Total Mātrā</th>
             </tr>
         </thead>
 
         <tbody>
-            {% for pattern in result["patterns"] %}
+            {% for item in result["patterns"] %}
             <tr>
                 <td>{{ loop.index }}</td>
 
                 <td>
-                    <strong>{{ pattern }}</strong>
+                    <strong>{{ item.pattern }}</strong>
                 </td>
 
+                <td>{{ item.gurus }}</td>
+                <td>{{ item.laghus }}</td>
+
                 <td>
-                    {% for ch in pattern %}
+                    {% for ch in item.pattern %}
                         {% if ch == "L" %}
                             <span class="badge bg-success fs-6">Laghu</span>
                         {% else %}
                             <span class="badge bg-warning text-dark fs-6">Guru</span>
                         {% endif %}
                     {% endfor %}
-                </td>
-
-                <td>
-                    {{ result["matra"] }}
                 </td>
             </tr>
             {% endfor %}
@@ -161,8 +131,8 @@
 {% else %}
 
 <div class="alert alert-info">
-    Patterns are not generated for m greater than 12 to keep the page fast.
-    The count is still calculated correctly.
+    Pattern generation is disabled for m greater than 12 to keep the page fast.
+    Counts are still calculated correctly.
 </div>
 
 {% endif %}
@@ -171,18 +141,18 @@
     <h3>Example</h3>
 
     <p>
-        For m = 3, the possible patterns are:
+        For m = 4:
     </p>
 
     <ul>
-        <li>LLL = 1 + 1 + 1 = 3 mātrās</li>
-        <li>GL = 2 + 1 = 3 mātrās</li>
-        <li>LG = 1 + 2 = 3 mātrās</li>
+        <li>0 Guru → LLLL → 1 pattern</li>
+        <li>1 Guru → GLL, LGL, LLG → 3 patterns</li>
+        <li>2 Guru → GG → 1 pattern</li>
     </ul>
 
     <p>
-        Therefore:
-        <strong>M(3) = 3</strong>
+        Total:
+        <strong>1 + 3 + 1 = 5</strong>
     </p>
 </div>
 

@@ -327,3 +327,107 @@ def matra_chandas(m):
         "patterns": patterns,
         "patterns_generated": m <= 12
     }
+    
+    
+def combination(n, r):
+    if r < 0 or r > n:
+        return 0
+
+    if r == 0 or r == n:
+        return 1
+
+    r = min(r, n - r)
+
+    result = 1
+
+    for i in range(1, r + 1):
+        result = result * (n - r + i) // i
+
+    return result
+
+
+def matra_meru(m):
+    guru_counts = []
+    total = 0
+
+    for gurus in range((m // 2) + 1):
+        laghus = m - (2 * gurus)
+        total_symbols = laghus + gurus
+
+        count = combination(total_symbols, gurus)
+        total += count
+
+        guru_counts.append({
+            "gurus": gurus,
+            "laghus": laghus,
+            "total_symbols": total_symbols,
+            "formula": f"C({total_symbols}, {gurus})",
+            "count": count
+        })
+
+    grouped_patterns = []
+
+    def generate(remaining, current):
+        if remaining == 0:
+            gurus = current.count("G")
+            grouped_patterns.append({
+                "pattern": current,
+                "gurus": gurus,
+                "laghus": current.count("L")
+            })
+            return
+
+        if remaining >= 1:
+            generate(remaining - 1, current + "L")
+
+        if remaining >= 2:
+            generate(remaining - 2, current + "G")
+
+    if m <= 12:
+        generate(m, "")
+
+    return {
+        "matra": m,
+        "guru_counts": guru_counts,
+        "total": total,
+        "patterns": grouped_patterns,
+        "patterns_generated": m <= 12
+    }
+
+
+def factorial(n):
+    result = 1
+
+    for i in range(2, n + 1):
+        result *= i
+
+    return result
+
+
+def permutation_algorithm(items):
+    from itertools import permutations
+
+    clean_items = []
+
+    for item in items:
+        item = item.strip()
+
+        if item:
+            clean_items.append(item)
+
+    n = len(clean_items)
+    total = factorial(n)
+
+    generated = []
+
+    if n <= 6:
+        for perm in permutations(clean_items):
+            generated.append(perm)
+
+    return {
+        "items": clean_items,
+        "n": n,
+        "total": total,
+        "permutations": generated,
+        "generated": n <= 6
+    }

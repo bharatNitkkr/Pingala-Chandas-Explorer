@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Other Interesting Algorithms</h1>
+
+<p class="lead">
+    This section contains additional algorithms and combinatorial ideas related
+    to Sanskrit Chandas and the lecture.
+</p>
+
+<p>
+    These algorithms are placed separately so that more algorithms can be added
+    later without disturbing the main six Pingala algorithms.
+</p>
+
+<div class="row">
+
+    <div class="col-md-4 mb-3">
+        <div class="card p-3">
+            <h4>Mātrā Chandaḥ</h4>
+
+            <p>
+                Count how many Chandas patterns can be formed for a fixed total
+                mātrā value using the recurrence
+                M(m) = M(m - 1) + M(m - 2).
+            </p>
+
+            <a href="/matra-chandas" class="btn btn-primary">
+                Explore
+            </a>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-3">
+        <div class="card p-3">
+            <h4>Mātrā Meru / Mātrā Prastāra</h4>
+
+            <p>
+                Count how many patterns of a fixed mātrā length contain exactly
+                0 Guru, 1 Guru, 2 Guru, and so on.
+            </p>
+
+            <a href="/matra-meru" class="btn btn-primary">
+                Explore
+            </a>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-3">
+        <div class="card p-3">
+            <h4>Permutation Algorithm</h4>
+
+            <p>
+                Count and generate arrangements of n distinct objects, such as
+                the 24 arrangements of four āstras in four hands.
+            </p>
+
+            <a href="/permutation" class="btn btn-primary">
+                Explore
+            </a>
+        </div>
+    </div>
+
+</div>
+
+<div class="alert alert-info mt-4">
+    More algorithms can be added here later as separate cards and pages.
+</div>
+
+{% endblock %}
