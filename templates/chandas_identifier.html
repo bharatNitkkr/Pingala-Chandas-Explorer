@@ -1,0 +1,222 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Chandas Class & Meter Identifier</h1>
+
+<p>
+    This tool identifies the Chandas class of a Laghu-Guru pattern based on
+    its akṣara length. It also checks whether the pattern matches a known
+    meter currently added to the app.
+</p>
+
+<p>
+    In this app:
+    <span class="badge bg-success">Laghu = 1</span>
+    <span class="badge bg-warning text-dark">Guru = 0</span>
+</p>
+
+<a href="/other-algorithms" class="btn btn-outline-dark mb-4">
+    Back to Other Algorithms
+</a>
+
+<div class="card p-4 mb-4">
+    <form method="POST">
+
+        <div class="mb-3">
+            <label class="form-label">Enter Laghu-Guru Pattern</label>
+
+            <input
+                type="text"
+                name="pattern"
+                class="form-control"
+                placeholder="Example: LGGLGGLGGLGG or 100100100100"
+                required>
+
+            <small class="text-muted">
+                Use L/G or 1/0. Example: LGGLGGLGGLGG is Bhujanga-prayāta.
+            </small>
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+            Identify Chandas
+        </button>
+
+    </form>
+</div>
+
+{% if error %}
+<div class="alert alert-danger">
+    {{ error }}
+</div>
+{% endif %}
+
+{% if result %}
+
+<div class="card p-4 mb-4">
+    <h3>Basic Identification</h3>
+
+    <table class="table table-bordered table-striped">
+        <tbody>
+            <tr>
+                <th>Input Pattern</th>
+                <td>{{ result["input_pattern"] }}</td>
+            </tr>
+
+            <tr>
+                <th>Laghu-Guru Pattern</th>
+                <td>
+                    {% for ch in result["laghu_guru_pattern"] %}
+                        {% if ch == "L" %}
+                            <span class="badge bg-success fs-6">Laghu</span>
+                        {% else %}
+                            <span class="badge bg-warning text-dark fs-6">Guru</span>
+                        {% endif %}
+                    {% endfor %}
+                </td>
+            </tr>
+
+            <tr>
+                <th>Binary Pattern</th>
+                <td>
+                    <span class="badge bg-dark fs-6">
+                        {{ result["bit_pattern"] }}
+                    </span>
+                </td>
+            </tr>
+
+            <tr>
+                <th>Akṣara Length</th>
+                <td>{{ result["length"] }}</td>
+            </tr>
+
+            <tr>
+                <th>Chandas Class</th>
+                <td>
+                    <span class="badge bg-primary fs-6">
+                        {{ result["class_name"] }}
+                    </span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="card p-4 mb-4">
+    <h3>Exact Meter Match</h3>
+
+    {% if result["exact_meter"] %}
+
+    <p>
+        Exact meter identified:
+    </p>
+
+    <h4>
+        <span class="badge bg-success">
+            {{ result["exact_meter"]["name"] }}
+        </span>
+    </h4>
+
+    <p>
+        Sanskrit Name:
+        <strong>{{ result["exact_meter"]["sanskrit"] }}</strong>
+    </p>
+
+    <p>
+        Class:
+        <strong>{{ result["exact_meter"]["class_name"] }}</strong>
+    </p>
+
+    <p>
+        {{ result["exact_meter"]["description"] }}
+    </p>
+
+    {% else %}
+
+    <div class="alert alert-info">
+        No exact named meter match is currently available in the app's small
+        meter library. The class identification and gaṇa breakdown are still shown.
+    </div>
+
+    {% endif %}
+</div>
+
+<div class="card p-4 mb-4">
+    <h3>Gaṇa Breakdown</h3>
+
+    {% if result["ganas"] %}
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Group</th>
+                <th>Bits</th>
+                <th>Sanskrit Name</th>
+                <th>English Name</th>
+                <th>Short Name</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for item in result["ganas"] %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>
+                    <span class="badge bg-dark fs-6">
+                        {{ item.bits }}
+                    </span>
+                </td>
+                <td>{{ item.gana.sanskrit }}</td>
+                <td>{{ item.gana.name }}</td>
+                <td>{{ item.gana.short }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% else %}
+
+    <p>No complete gaṇa found. A gaṇa requires 3 units.</p>
+
+    {% endif %}
+
+    {% if result["remaining"] %}
+    <div class="alert alert-warning">
+        Remaining incomplete group:
+        <strong>{{ result["remaining"] }}</strong>
+        <br>
+        A full gaṇa requires exactly 3 units.
+    </div>
+    {% endif %}
+</div>
+
+<div class="card p-4 mb-4">
+    <h3>Example</h3>
+
+    <p>
+        Bhujanga-prayāta has the pattern:
+    </p>
+
+    <p>
+        <strong>LGG LGG LGG LGG</strong>
+    </p>
+
+    <p>
+        Binary form:
+    </p>
+
+    <p>
+        <span class="badge bg-dark fs-6">
+            100100100100
+        </span>
+    </p>
+
+    <p>
+        This is:
+        <strong>Ya-gaṇa Ya-gaṇa Ya-gaṇa Ya-gaṇa</strong>.
+    </p>
+</div>
+
+{% endif %}
+
+{% endblock %}
