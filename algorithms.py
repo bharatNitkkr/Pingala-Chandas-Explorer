@@ -431,3 +431,81 @@ def permutation_algorithm(items):
         "permutations": generated,
         "generated": n <= 6
     }
+
+def gana_decoder(pattern):
+    pattern = pattern.upper().strip()
+
+    bit_pattern = ""
+
+    for ch in pattern:
+        if ch == "L" or ch == "1":
+            bit_pattern += "1"
+        elif ch == "G" or ch == "0":
+            bit_pattern += "0"
+        else:
+            return None
+
+    gana_map = {
+        "100": {
+            "name": "Ya-gaṇa",
+            "sanskrit": "यगण",
+            "pattern": "Laghu Guru Guru"
+        },
+        "000": {
+            "name": "Ma-gaṇa",
+            "sanskrit": "मगण",
+            "pattern": "Guru Guru Guru"
+        },
+        "001": {
+            "name": "Ta-gaṇa",
+            "sanskrit": "तगण",
+            "pattern": "Guru Guru Laghu"
+        },
+        "010": {
+            "name": "Ra-gaṇa",
+            "sanskrit": "रगण",
+            "pattern": "Guru Laghu Guru"
+        },
+        "101": {
+            "name": "Ja-gaṇa",
+            "sanskrit": "जगण",
+            "pattern": "Laghu Guru Laghu"
+        },
+        "011": {
+            "name": "Bha-gaṇa",
+            "sanskrit": "भगण",
+            "pattern": "Guru Laghu Laghu"
+        },
+        "111": {
+            "name": "Na-gaṇa",
+            "sanskrit": "नगण",
+            "pattern": "Laghu Laghu Laghu"
+        },
+        "110": {
+            "name": "Sa-gaṇa",
+            "sanskrit": "सगण",
+            "pattern": "Laghu Laghu Guru"
+        }
+    }
+
+    groups = []
+    remaining = ""
+
+    for i in range(0, len(bit_pattern), 3):
+        group = bit_pattern[i:i + 3]
+
+        if len(group) == 3:
+            groups.append({
+                "bits": group,
+                "gana": gana_map[group]
+            })
+        else:
+            remaining = group
+
+    return {
+        "input_pattern": pattern,
+        "bit_pattern": bit_pattern,
+        "groups": groups,
+        "remaining": remaining,
+        "total_ganas": len(groups)
+    }
