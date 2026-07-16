@@ -623,3 +623,9 @@ def pattern_analyzer(pattern):
         "ganas": ganas,
         "remaining": remaining
     }
+
+Binary: 100100100100
+Length: 12
+Class: Jagatī
+Exact Meter: Bhujanga-prayāta
+Gaṇas: Ya Ya Ya Ya
