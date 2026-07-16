@@ -1,0 +1,223 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Gaṇa Decoder</h1>
+
+<p>
+    A gaṇa is a group of three Laghu-Guru units. Piṅgala uses gaṇas to describe
+    Chandas patterns in a compact way.
+</p>
+
+<p>
+    This page identifies gaṇas using the traditional
+    <strong>yamātārājabhānasalagam</strong> system.
+</p>
+
+<p>
+    In this app:
+    <span class="badge bg-success">Laghu = 1</span>
+    <span class="badge bg-warning text-dark">Guru = 0</span>
+</p>
+
+<a href="/other-algorithms" class="btn btn-outline-dark mb-4">
+    Back to Other Algorithms
+</a>
+
+<div class="card p-4 mb-4">
+    <form method="POST">
+
+        <div class="mb-3">
+            <label class="form-label">Enter Laghu-Guru Pattern</label>
+
+            <input
+                type="text"
+                name="pattern"
+                class="form-control"
+                placeholder="Example: LGGLGGLGG or 100100100"
+                required>
+
+            <small class="text-muted">
+                Use L/G or 1/0. Example: LGG = Ya-gaṇa.
+            </small>
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+            Decode Gaṇa
+        </button>
+
+    </form>
+</div>
+
+{% if error %}
+<div class="alert alert-danger">
+    {{ error }}
+</div>
+{% endif %}
+
+{% if result %}
+
+<div class="card p-4 mb-4">
+    <h3>Result</h3>
+
+    <p>
+        Input Pattern:
+        <strong>{{ result["input_pattern"] }}</strong>
+    </p>
+
+    <p>
+        Binary Form:
+        <span class="badge bg-dark fs-6">{{ result["bit_pattern"] }}</span>
+    </p>
+
+    <p>
+        Total Complete Gaṇas:
+        <strong>{{ result["total_ganas"] }}</strong>
+    </p>
+</div>
+
+<div class="card p-4 mb-4">
+    <h3>Gaṇa Breakdown</h3>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Group</th>
+                <th>Bits</th>
+                <th>Sanskrit Name</th>
+                <th>English Name</th>
+                <th>Pattern</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for item in result["groups"] %}
+            <tr>
+                <td>{{ loop.index }}</td>
+
+                <td>
+                    <span class="badge bg-dark fs-6">{{ item.bits }}</span>
+                </td>
+
+                <td>{{ item.gana.sanskrit }}</td>
+                <td>{{ item.gana.name }}</td>
+                <td>{{ item.gana.pattern }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% if result["remaining"] %}
+    <div class="alert alert-warning">
+        Remaining incomplete group:
+        <strong>{{ result["remaining"] }}</strong>
+        <br>
+        A full gaṇa requires exactly 3 units.
+    </div>
+    {% endif %}
+</div>
+
+<div class="card p-4 mb-4">
+    <h3>Gaṇa Reference Table</h3>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Gaṇa</th>
+                <th>Sanskrit</th>
+                <th>Pattern</th>
+                <th>Binary</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+                <td>Ya-gaṇa</td>
+                <td>यगण</td>
+                <td>Laghu Guru Guru</td>
+                <td>100</td>
+            </tr>
+
+            <tr>
+                <td>Ma-gaṇa</td>
+                <td>मगण</td>
+                <td>Guru Guru Guru</td>
+                <td>000</td>
+            </tr>
+
+            <tr>
+                <td>Ta-gaṇa</td>
+                <td>तगण</td>
+                <td>Guru Guru Laghu</td>
+                <td>001</td>
+            </tr>
+
+            <tr>
+                <td>Ra-gaṇa</td>
+                <td>रगण</td>
+                <td>Guru Laghu Guru</td>
+                <td>010</td>
+            </tr>
+
+            <tr>
+                <td>Ja-gaṇa</td>
+                <td>जगण</td>
+                <td>Laghu Guru Laghu</td>
+                <td>101</td>
+            </tr>
+
+            <tr>
+                <td>Bha-gaṇa</td>
+                <td>भगण</td>
+                <td>Guru Laghu Laghu</td>
+                <td>011</td>
+            </tr>
+
+            <tr>
+                <td>Na-gaṇa</td>
+                <td>नगण</td>
+                <td>Laghu Laghu Laghu</td>
+                <td>111</td>
+            </tr>
+
+            <tr>
+                <td>Sa-gaṇa</td>
+                <td>सगण</td>
+                <td>Laghu Laghu Guru</td>
+                <td>110</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="card p-4 mb-4">
+    <h3>Example</h3>
+
+    <p>
+        Suppose the pattern is:
+    </p>
+
+    <p>
+        <span class="badge bg-dark fs-6">100100100</span>
+    </p>
+
+    <p>
+        Grouping into triplets:
+    </p>
+
+    <p>
+        <strong>100 | 100 | 100</strong>
+    </p>
+
+    <p>
+        Since <strong>100 = Ya-gaṇa</strong>, the result is:
+    </p>
+
+    <p>
+        <strong>Ya-gaṇa Ya-gaṇa Ya-gaṇa</strong>
+    </p>
+</div>
+
+{% endif %}
+
+{% endblock %}
