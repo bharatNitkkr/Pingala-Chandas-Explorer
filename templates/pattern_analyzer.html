@@ -1,0 +1,219 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Chandas Pattern Analyzer</h1>
+
+<p>
+    This tool analyzes a Laghu-Guru pattern and shows its binary form,
+    mātrā value, Uddiṣṭa rank, and gaṇa breakdown.
+</p>
+
+<p>
+    In this app:
+    <span class="badge bg-success">Laghu = 1</span>
+    <span class="badge bg-warning text-dark">Guru = 0</span>
+</p>
+
+<a href="/other-algorithms" class="btn btn-outline-dark mb-4">
+    Back to Other Algorithms
+</a>
+
+<div class="card p-4 mb-4">
+    <form method="POST">
+
+        <div class="mb-3">
+            <label class="form-label">Enter Laghu-Guru Pattern</label>
+
+            <input
+                type="text"
+                name="pattern"
+                class="form-control"
+                placeholder="Example: GGL or 001 or LGGLGGLGG"
+                required>
+
+            <small class="text-muted">
+                Use L/G or 1/0. Example: GGL is the same as 001.
+            </small>
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+            Analyze Pattern
+        </button>
+
+    </form>
+</div>
+
+{% if error %}
+<div class="alert alert-danger">
+    {{ error }}
+</div>
+{% endif %}
+
+{% if result %}
+
+<div class="card p-4 mb-4">
+    <h3>Basic Analysis</h3>
+
+    <table class="table table-bordered table-striped">
+        <tbody>
+            <tr>
+                <th>Input Pattern</th>
+                <td>{{ result["input_pattern"] }}</td>
+            </tr>
+
+            <tr>
+                <th>Laghu-Guru Pattern</th>
+                <td>
+                    {% for ch in result["laghu_guru_pattern"] %}
+                        {% if ch == "L" %}
+                            <span class="badge bg-success fs-6">Laghu</span>
+                        {% else %}
+                            <span class="badge bg-warning text-dark fs-6">Guru</span>
+                        {% endif %}
+                    {% endfor %}
+                </td>
+            </tr>
+
+            <tr>
+                <th>Binary Pattern</th>
+                <td>
+                    <span class="badge bg-dark fs-6">
+                        {{ result["bit_pattern"] }}
+                    </span>
+                </td>
+            </tr>
+
+            <tr>
+                <th>Total Akṣaras</th>
+                <td>{{ result["length"] }}</td>
+            </tr>
+
+            <tr>
+                <th>Laghu Count</th>
+                <td>{{ result["laghu_count"] }}</td>
+            </tr>
+
+            <tr>
+                <th>Guru Count</th>
+                <td>{{ result["guru_count"] }}</td>
+            </tr>
+
+            <tr>
+                <th>Total Mātrā Value</th>
+                <td>{{ result["matra_value"] }}</td>
+            </tr>
+
+            <tr>
+                <th>Uddiṣṭa Rank</th>
+                <td>
+                    <span class="badge bg-primary fs-6">
+                        {{ result["rank"] }}
+                    </span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="card p-4 mb-4">
+    <h3>Uddiṣṭa Rank Steps</h3>
+
+    <p>
+        Start with <strong>r = 1</strong>. Read the pattern from right to left.
+        If bit is 1, use <strong>r = 2r</strong>.
+        If bit is 0, use <strong>r = 2r - 1</strong>.
+    </p>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Bit Read</th>
+                <th>Old Rank</th>
+                <th>Operation</th>
+                <th>New Rank</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for step in result["rank_steps"] %}
+            <tr>
+                <td>{{ step.bit }}</td>
+                <td>{{ step.old_rank }}</td>
+                <td>{{ step.operation }}</td>
+                <td>{{ step.new_rank }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="card p-4 mb-4">
+    <h3>Gaṇa Breakdown</h3>
+
+    {% if result["ganas"] %}
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Group</th>
+                <th>Bits</th>
+                <th>Sanskrit Name</th>
+                <th>English Name</th>
+                <th>Pattern</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for item in result["ganas"] %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>
+                    <span class="badge bg-dark fs-6">{{ item.bits }}</span>
+                </td>
+                <td>{{ item.gana.sanskrit }}</td>
+                <td>{{ item.gana.name }}</td>
+                <td>{{ item.gana.pattern }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% else %}
+
+    <p>No complete gaṇa found. A gaṇa requires 3 units.</p>
+
+    {% endif %}
+
+    {% if result["remaining"] %}
+    <div class="alert alert-warning">
+        Remaining incomplete group:
+        <strong>{{ result["remaining"] }}</strong>
+    </div>
+    {% endif %}
+</div>
+
+<div class="card p-4 mb-4">
+    <h3>Example Interpretation</h3>
+
+    <p>
+        A pattern like <strong>GGL</strong> becomes binary
+        <strong>001</strong>.
+    </p>
+
+    <p>
+        It contains 2 Guru and 1 Laghu, so its mātrā value is:
+    </p>
+
+    <p>
+        <strong>2 + 2 + 1 = 5 mātrās</strong>
+    </p>
+
+    <p>
+        Its Uddiṣṭa rank is <strong>5</strong>, matching the lecture-style method.
+    </p>
+</div>
+
+{% endif %}
+
+{% endblock %}
