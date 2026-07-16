@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-from algorithms import prastara, nasta, uddista, sankhya, adhvayoga, meru_prastara, matra_chandas, matra_meru, permutation_algorithm, gana_decoder
+from algorithms import prastara, nasta, uddista, sankhya, adhvayoga, meru_prastara, matra_chandas, matra_meru, permutation_algorithm, gana_decoder, pattern_analyzer
 
 app = Flask(__name__)
 
@@ -148,6 +148,20 @@ def gana_decoder_page():
             error = "Invalid input. Please use only L/G or 1/0."
 
     return render_template("gana_decoder.html", result=result, error=error)
+
+@app.route("/pattern-analyzer", methods=["GET", "POST"])
+def pattern_analyzer_page():
+    result = None
+    error = None
+
+    if request.method == "POST":
+        pattern = request.form["pattern"]
+        result = pattern_analyzer(pattern)
+
+        if result is None:
+            error = "Invalid input. Please use only L/G or 1/0."
+
+    return render_template("pattern_analyzer.html", result=result, error=error)
 
 if __name__ == "__main__":
     app.run(debug=True)
