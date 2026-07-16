@@ -509,3 +509,117 @@ def gana_decoder(pattern):
         "remaining": remaining,
         "total_ganas": len(groups)
     }
+
+def pattern_analyzer(pattern):
+    pattern = pattern.upper().strip()
+
+    bit_pattern = ""
+    laghu_guru_pattern = ""
+
+    for ch in pattern:
+        if ch == "L" or ch == "1":
+            bit_pattern += "1"
+            laghu_guru_pattern += "L"
+        elif ch == "G" or ch == "0":
+            bit_pattern += "0"
+            laghu_guru_pattern += "G"
+        else:
+            return None
+
+    length = len(laghu_guru_pattern)
+    laghu_count = laghu_guru_pattern.count("L")
+    guru_count = laghu_guru_pattern.count("G")
+
+    matra_value = (laghu_count * 1) + (guru_count * 2)
+
+    # Uddista rank calculation according to lecture method
+    rank = 1
+    rank_steps = []
+
+    for bit in reversed(bit_pattern):
+        old_rank = rank
+
+        if bit == "1":
+            rank = 2 * rank
+            operation = f"2 × {old_rank} = {rank}"
+        else:
+            rank = (2 * rank) - 1
+            operation = f"2 × {old_rank} - 1 = {rank}"
+
+        rank_steps.append({
+            "bit": bit,
+            "old_rank": old_rank,
+            "operation": operation,
+            "new_rank": rank
+        })
+
+    gana_map = {
+        "100": {
+            "name": "Ya-gaṇa",
+            "sanskrit": "यगण",
+            "pattern": "Laghu Guru Guru"
+        },
+        "000": {
+            "name": "Ma-gaṇa",
+            "sanskrit": "मगण",
+            "pattern": "Guru Guru Guru"
+        },
+        "001": {
+            "name": "Ta-gaṇa",
+            "sanskrit": "तगण",
+            "pattern": "Guru Guru Laghu"
+        },
+        "010": {
+            "name": "Ra-gaṇa",
+            "sanskrit": "रगण",
+            "pattern": "Guru Laghu Guru"
+        },
+        "101": {
+            "name": "Ja-gaṇa",
+            "sanskrit": "जगण",
+            "pattern": "Laghu Guru Laghu"
+        },
+        "011": {
+            "name": "Bha-gaṇa",
+            "sanskrit": "भगण",
+            "pattern": "Guru Laghu Laghu"
+        },
+        "111": {
+            "name": "Na-gaṇa",
+            "sanskrit": "नगण",
+            "pattern": "Laghu Laghu Laghu"
+        },
+        "110": {
+            "name": "Sa-gaṇa",
+            "sanskrit": "सगण",
+            "pattern": "Laghu Laghu Guru"
+        }
+    }
+
+    ganas = []
+    remaining = ""
+
+    for i in range(0, len(bit_pattern), 3):
+        group = bit_pattern[i:i + 3]
+
+        if len(group) == 3:
+            ganas.append({
+                "bits": group,
+                "gana": gana_map[group]
+            })
+        else:
+            remaining = group
+
+    return {
+        "input_pattern": pattern,
+        "laghu_guru_pattern": laghu_guru_pattern,
+        "bit_pattern": bit_pattern,
+        "length": length,
+        "laghu_count": laghu_count,
+        "guru_count": guru_count,
+        "matra_value": matra_value,
+        "rank": rank,
+        "rank_steps": rank_steps,
+        "ganas": ganas,
+        "remaining": remaining
+    }
