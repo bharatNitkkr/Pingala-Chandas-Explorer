@@ -623,3 +623,142 @@ def pattern_analyzer(pattern):
         "ganas": ganas,
         "remaining": remaining
     }
+
+def chandas_identifier(pattern):
+    """
+    Identify the Chandas class, gaṇas, and an exact meter match
+    from a Laghu-Guru or binary pattern.
+
+    Laghu = L or 1
+    Guru = G or 0
+    """
+
+    if not isinstance(pattern, str):
+        return None
+
+    bit_pattern = ""
+    laghu_guru_pattern = ""
+
+    for ch in pattern.upper().strip():
+
+        # Allow grouped patterns such as LGG LGG LGG LGG
+        if ch in {" ", "-", "_", "|", ","}:
+            continue
+
+        if ch in {"L", "1"}:
+            bit_pattern += "1"
+            laghu_guru_pattern += "L"
+
+        elif ch in {"G", "0"}:
+            bit_pattern += "0"
+            laghu_guru_pattern += "G"
+
+        else:
+            return None
+
+    if not bit_pattern:
+        return None
+
+    # Chandas class according to akṣara length
+    class_by_length = {
+        6: "Gāyatrī",
+        7: "Uṣṇih",
+        8: "Anuṣṭubh",
+        9: "Bṛhatī",
+        10: "Paṅkti",
+        11: "Triṣṭubh",
+        12: "Jagatī",
+        13: "Atijagatī",
+        14: "Śakvarī",
+        15: "Atiśakvarī",
+        16: "Aṣṭi",
+        17: "Atyaṣṭi",
+        18: "Dhṛti",
+        19: "Atidhṛti",
+    }
+
+    gana_map = {
+        "100": {
+            "name": "Ya-gaṇa",
+            "sanskrit": "यगण",
+            "short": "Ya",
+        },
+        "000": {
+            "name": "Ma-gaṇa",
+            "sanskrit": "मगण",
+            "short": "Ma",
+        },
+        "001": {
+            "name": "Ta-gaṇa",
+            "sanskrit": "तगण",
+            "short": "Ta",
+        },
+        "010": {
+            "name": "Ra-gaṇa",
+            "sanskrit": "रगण",
+            "short": "Ra",
+        },
+        "101": {
+            "name": "Ja-gaṇa",
+            "sanskrit": "जगण",
+            "short": "Ja",
+        },
+        "011": {
+            "name": "Bha-gaṇa",
+            "sanskrit": "भगण",
+            "short": "Bha",
+        },
+        "111": {
+            "name": "Na-gaṇa",
+            "sanskrit": "नगण",
+            "short": "Na",
+        },
+        "110": {
+            "name": "Sa-gaṇa",
+            "sanskrit": "सगण",
+            "short": "Sa",
+        },
+    }
+
+    ganas = []
+    remaining = ""
+
+    for i in range(0, len(bit_pattern), 3):
+        group = bit_pattern[i:i + 3]
+
+        if len(group) == 3:
+            ganas.append({
+                "bits": group,
+                "gana": gana_map[group],
+            })
+        else:
+            remaining = group
+
+    # Small meter library — we will expand this next
+    meter_library = {
+        "100100100100": {
+            "name": "Bhujanga-prayāta",
+            "sanskrit": "भुजङ्गप्रयात",
+            "class_name": "Jagatī",
+            "description": (
+                "A 12-akṣara sama-vṛtta formed by four "
+                "Ya-gaṇas: LGG × 4."
+            ),
+        }
+    }
+
+    length = len(bit_pattern)
+
+    return {
+        "input_pattern": pattern,
+        "laghu_guru_pattern": laghu_guru_pattern,
+        "bit_pattern": bit_pattern,
+        "length": length,
+        "class_name": class_by_length.get(
+            length,
+            "Class not yet added",
+        ),
+        "exact_meter": meter_library.get(bit_pattern),
+        "ganas": ganas,
+        "remaining": remaining,
+    }
