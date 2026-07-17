@@ -1,3 +1,27 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Philosopher:wght@400;700&display=swap");
+
+html,
+body {
+    min-height: 100%;
+}
+
+body {
+    margin: 0;
+    color: #3d2817;
+
+    background-image:
+        linear-gradient(
+            rgba(255, 250, 239, 0.72),
+            rgba(255, 247, 230, 0.72)
+        ),
+        url("/static/images/sanskrit-chandas-background.png");
+
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
 body {
     background-color: #c6f1f8;
 }
@@ -16,4 +40,104 @@ body {
     font-size: 1.0rem;
     line-height: 2;
     font-weight: 500;
+}
+
+main {
+    min-height: calc(100vh - 70px);
+    padding: 40px 20px;
+}
+
+.container {
+    position: relative;
+    z-index: 1;
+}
+
+.card,
+.tool-card,
+.result-card,
+.form-container,
+.content-box {
+    background: rgba(255, 252, 242, 0.88);
+    border: 1px solid rgba(151, 91, 34, 0.25);
+    border-radius: 16px;
+
+    box-shadow:
+        0 8px 25px rgba(80, 43, 15, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.7);
+
+    backdrop-filter: blur(7px);
+    -webkit-backdrop-filter: blur(7px);
+}
+
+
+h1,
+h2,
+h3,
+.navbar-brand {
+    font-family: "Philosopher", "Noto Sans Devanagari", serif;
+    color: #713c18;
+}
+
+.sanskrit-text {
+    font-family: "Noto Sans Devanagari", serif;
+}
+
+
+.navbar {
+    background: rgba(91, 43, 15, 0.94) !important;
+    box-shadow: 0 3px 15px rgba(61, 31, 10, 0.22);
+    backdrop-filter: blur(8px);
+}
+
+.navbar-brand,
+.navbar .nav-link {
+    color: #fff8e7 !important;
+}
+
+.navbar .nav-link:hover {
+    color: #ffc86b !important;
+}
+
+@media (max-width: 768px) {
+    body {
+        background-attachment: scroll;
+        background-position: center top;
+    }
+
+    main {
+        padding: 24px 12px;
+    }
+
+    .card,
+    .tool-card,
+    .result-card,
+    .form-container,
+    .content-box {
+        border-radius: 12px;
+    }
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #9a4f1c, #c8792a);
+    border: 1px solid #8a4318;
+    color: #fffaf0;
+    font-weight: 500;
+    transition: all 0.25s ease;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    background: linear-gradient(135deg, #7a3512, #a95c1f);
+    border-color: #6e2f10;
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 12px rgba(105, 48, 15, 0.25);
+}
+
+.bg-light {
+    background: rgba(255, 251, 241, 0.84) !important;
+    border: 1px solid rgba(145, 78, 30, 0.18);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    box-shadow: 0 8px 24px rgba(91, 46, 15, 0.08);
 }
