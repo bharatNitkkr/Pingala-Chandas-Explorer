@@ -1,0 +1,89 @@
+<div class="card p-4 mb-4">
+    <h2>Sūtra to Algorithm Explanation</h2>
+
+    <p>
+        <strong>Purpose:</strong>
+        {{ sutra.purpose }}
+    </p>
+
+    <h4>Original Sūtra</h4>
+
+    <p class="sanskrit-text">
+        {% for line in sutra.sutras %}
+            {{ line }}<br>
+        {% endfor %}
+    </p>
+
+    <h4>Padaccheda</h4>
+
+    <p class="sanskrit-text">
+        {% for line in sutra.padaccheda %}
+            {{ line }}<br>
+        {% endfor %}
+    </p>
+
+    <h4>Word-by-word Meaning</h4>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Word / Symbol</th>
+                <th>Literal Meaning</th>
+                <th>Algorithmic Meaning</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for item in sutra.word_meanings %}
+            <tr>
+                <td class="sanskrit-text">{{ item.word }}</td>
+                <td>{{ item.literal }}</td>
+                <td>{{ item.algorithm }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h4>How the Sūtra Becomes the Algorithm</h4>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Sūtra Part</th>
+                <th>Meaning</th>
+                <th>Algorithm Step</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for item in sutra.sutra_to_algorithm %}
+            <tr>
+                <td class="sanskrit-text">{{ item.sutra }}</td>
+                <td>{{ item.meaning }}</td>
+                <td>{{ item.step }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h4>Worked Example</h4>
+
+    <ul>
+        {% for step in sutra.example %}
+        <li>{{ step }}</li>
+        {% endfor %}
+    </ul>
+
+    <h4>Source Note</h4>
+
+    <p>
+        {{ sutra.source }}
+    </p>
+
+    <div class="alert alert-warning">
+        The sūtras are very compact. This page gives an algorithmic
+        interpretation based on traditional explanation and modern
+        computational reading. Exact wording should be verified with the
+        edition recommended by the mentor.
+    </div>
+</div>
