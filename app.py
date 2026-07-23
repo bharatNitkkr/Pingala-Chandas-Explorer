@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 from algorithms import prastara, nasta, uddista, sankhya, adhvayoga, meru_prastara, matra_chandas, matra_meru, permutation_algorithm, gana_decoder, pattern_analyzer, chandas_identifier
+from sutra_data import SUTRA_DETAILS
 
 app = Flask(__name__)
 
@@ -31,8 +32,12 @@ def nasta_page():
         if result is None:
             error = f"Invalid rank. For n = {n}, rank must be between 1 and {2 ** n}."
 
-    return render_template("nasta.html", result=result, error=error)
-
+    return render_template(
+    "nasta.html",
+    result=result,
+    sutra=SUTRA_DETAILS["nasta"]
+)
+    
 @app.route("/uddista", methods=["GET", "POST"])
 def uddista_page():
     result = None
@@ -46,7 +51,11 @@ def uddista_page():
         if result is None:
             error = "Invalid pattern. Please use L/G or 0/1 only."
 
-    return render_template("uddista.html", result=result, error=error)
+   return render_template(
+    "uddista.html",
+    result=result,
+    sutra=SUTRA_DETAILS["uddista"]
+)
 
 @app.route("/sankhya", methods=["GET", "POST"])
 def sankhya_page():
