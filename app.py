@@ -1,12 +1,29 @@
 from flask import Flask, render_template, request
-from algorithms import prastara, nasta, uddista, sankhya, adhvayoga, meru_prastara, matra_chandas, matra_meru, permutation_algorithm, gana_decoder, pattern_analyzer, chandas_identifier
+
+from algorithms import (
+    prastara,
+    nasta,
+    uddista,
+    sankhya,
+    adhvayoga,
+    meru_prastara,
+    matra_chandas,
+    matra_meru,
+    permutation_algorithm,
+    gana_decoder,
+    pattern_analyzer,
+    chandas_identifier,
+)
 from sutra_data import SUTRA_DETAILS
 
+
 app = Flask(__name__)
+
 
 @app.route("/")
 def home():
     return render_template("index.html")
+
 
 @app.route("/prastara", methods=["GET", "POST"])
 def prastara_page():
@@ -16,11 +33,12 @@ def prastara_page():
         n = int(request.form["n"])
         result = prastara(n)
 
-   return render_template(
-    "prastara.html",
-    result=result,
-    sutra=SUTRA_DETAILS["prastara"]
-)
+    return render_template(
+        "prastara.html",
+        result=result,
+        sutra=SUTRA_DETAILS["prastara"],
+    )
+
 
 @app.route("/nasta", methods=["GET", "POST"])
 def nasta_page():
@@ -30,18 +48,22 @@ def nasta_page():
     if request.method == "POST":
         n = int(request.form["n"])
         index = int(request.form["index"])
-
         result = nasta(n, index)
 
         if result is None:
-            error = f"Invalid rank. For n = {n}, rank must be between 1 and {2 ** n}."
+            error = (
+                f"Invalid rank. For n = {n}, "
+                f"rank must be between 1 and {2 ** n}."
+            )
 
     return render_template(
-    "nasta.html",
-    result=result,
-    sutra=SUTRA_DETAILS["nasta"]
-)
-    
+        "nasta.html",
+        result=result,
+        error=error,
+        sutra=SUTRA_DETAILS["nasta"],
+    )
+
+
 @app.route("/uddista", methods=["GET", "POST"])
 def uddista_page():
     result = None
@@ -49,17 +71,18 @@ def uddista_page():
 
     if request.method == "POST":
         pattern = request.form["pattern"].upper().strip()
-
         result = uddista(pattern)
 
         if result is None:
             error = "Invalid pattern. Please use L/G or 0/1 only."
 
-  return render_template(
-    "uddista.html",
-    result=result,
-    sutra=SUTRA_DETAILS["uddista"]
-)
+    return render_template(
+        "uddista.html",
+        result=result,
+        error=error,
+        sutra=SUTRA_DETAILS["uddista"],
+    )
+
 
 @app.route("/sankhya", methods=["GET", "POST"])
 def sankhya_page():
@@ -70,10 +93,11 @@ def sankhya_page():
         result = sankhya(n)
 
     return render_template(
-    "sankhya.html",
-    result=result,
-    sutra=SUTRA_DETAILS["sankhya"]
-)
+        "sankhya.html",
+        result=result,
+        sutra=SUTRA_DETAILS["sankhya"],
+    )
+
 
 @app.route("/adhvayoga", methods=["GET", "POST"])
 def adhvayoga_page():
@@ -84,10 +108,11 @@ def adhvayoga_page():
         result = adhvayoga(n)
 
     return render_template(
-    "adhvayoga.html",
-    result=result,
-    sutra=SUTRA_DETAILS["adhvayoga"]
-)
+        "adhvayoga.html",
+        result=result,
+        sutra=SUTRA_DETAILS["adhvayoga"],
+    )
+
 
 @app.route("/meru", methods=["GET", "POST"])
 def meru_page():
@@ -98,14 +123,16 @@ def meru_page():
         result = meru_prastara(n)
 
     return render_template(
-    "meru.html",
-    result=result,
-    sutra=SUTRA_DETAILS["meru"]
-)
-    
+        "meru.html",
+        result=result,
+        sutra=SUTRA_DETAILS["meru"],
+    )
+
+
 @app.route("/about")
 def about():
     return render_template("about.html")
+
 
 @app.route("/learn-chandas")
 def learn_chandas():
@@ -150,7 +177,7 @@ def permutation_page():
 
     if request.method == "POST":
         items_text = request.form["items"]
-        items = items_text.split(",")
+        items = [item.strip() for item in items_text.split(",")]
         result = permutation_algorithm(items)
 
     return render_template("permutation.html", result=result)
@@ -159,6 +186,7 @@ def permutation_page():
 @app.route("/other-algorithms")
 def other_algorithms():
     return render_template("other_algorithms.html")
+
 
 @app.route("/gana-decoder", methods=["GET", "POST"])
 def gana_decoder_page():
@@ -172,7 +200,12 @@ def gana_decoder_page():
         if result is None:
             error = "Invalid input. Please use only L/G or 1/0."
 
-    return render_template("gana_decoder.html", result=result, error=error)
+    return render_template(
+        "gana_decoder.html",
+        result=result,
+        error=error,
+    )
+
 
 @app.route("/pattern-analyzer", methods=["GET", "POST"])
 def pattern_analyzer_page():
@@ -186,7 +219,12 @@ def pattern_analyzer_page():
         if result is None:
             error = "Invalid input. Please use only L/G or 1/0."
 
-    return render_template("pattern_analyzer.html", result=result, error=error)
+    return render_template(
+        "pattern_analyzer.html",
+        result=result,
+        error=error,
+    )
+
 
 @app.route("/chandas-identifier", methods=["GET", "POST"])
 def chandas_identifier_page():
@@ -200,7 +238,12 @@ def chandas_identifier_page():
         if result is None:
             error = "Invalid input. Please use only L/G or 1/0."
 
-    return render_template("chandas_identifier.html", result=result, error=error)
+    return render_template(
+        "chandas_identifier.html",
+        result=result,
+        error=error,
+    )
+
 
 if __name__ == "__main__":
     app.run(debug=True)
