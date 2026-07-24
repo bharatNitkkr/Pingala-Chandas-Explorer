@@ -16,7 +16,11 @@ def prastara_page():
         n = int(request.form["n"])
         result = prastara(n)
 
-    return render_template("prastara.html", result=result)
+   return render_template(
+    "prastara.html",
+    result=result,
+    sutra=SUTRA_DETAILS["prastara"]
+)
 
 @app.route("/nasta", methods=["GET", "POST"])
 def nasta_page():
@@ -51,7 +55,7 @@ def uddista_page():
         if result is None:
             error = "Invalid pattern. Please use L/G or 0/1 only."
 
-   return render_template(
+  return render_template(
     "uddista.html",
     result=result,
     sutra=SUTRA_DETAILS["uddista"]
@@ -65,7 +69,11 @@ def sankhya_page():
         n = int(request.form["n"])
         result = sankhya(n)
 
-    return render_template("sankhya.html", result=result)
+    return render_template(
+    "sankhya.html",
+    result=result,
+    sutra=SUTRA_DETAILS["sankhya"]
+)
 
 @app.route("/adhvayoga", methods=["GET", "POST"])
 def adhvayoga_page():
@@ -75,7 +83,11 @@ def adhvayoga_page():
         n = int(request.form["n"])
         result = adhvayoga(n)
 
-    return render_template("adhvayoga.html", result=result)
+    return render_template(
+    "adhvayoga.html",
+    result=result,
+    sutra=SUTRA_DETAILS["adhvayoga"]
+)
 
 @app.route("/meru", methods=["GET", "POST"])
 def meru_page():
@@ -85,8 +97,12 @@ def meru_page():
         n = int(request.form["n"])
         result = meru_prastara(n)
 
-    return render_template("meru.html", result=result)
-
+    return render_template(
+    "meru.html",
+    result=result,
+    sutra=SUTRA_DETAILS["meru"]
+)
+    
 @app.route("/about")
 def about():
     return render_template("about.html")
